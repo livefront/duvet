@@ -59,8 +59,8 @@ public class SheetViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        backgroundView.isUserInteractionEnabled = true
-        backgroundView.addGestureRecognizer(tapGestureRecognizer)
+        view.addGestureRecognizer(tapGestureRecognizer)
+        backgroundView.isUserInteractionEnabled = false
 
         backgroundDimmingAnimator.addAnimations { [weak self] in
             self?.backgroundView.clearBackground()
@@ -130,6 +130,6 @@ extension SheetViewController: SheetViewDelegate {
 
 extension SheetViewController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return touch.view == backgroundView
+        return touch.view == view
     }
 }
