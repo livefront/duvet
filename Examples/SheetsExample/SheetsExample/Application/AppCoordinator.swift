@@ -6,6 +6,10 @@ protocol AppCoordinator: class {
 
     func dismissSheet()
 
+    func popSheet()
+
+    func showNextSheet()
+
     func showSheetViewController(viewControllerType: BaseViewController.Type, backgroundView: SheetBackgroundView, title: String)
 
     func showViewController()
@@ -16,6 +20,8 @@ class DefaultAppCoordinator {
     // MARK: Properites
 
     private let navigationController = UINavigationController()
+
+    private var sheetCount = 0
 
     private let sheetTransitioningDelegate = SheetTransitioningDelegate()   // swiftlint:disable:this weak_delegate
 }
@@ -31,7 +37,32 @@ extension DefaultAppCoordinator: AppCoordinator {
         navigationController.dismiss(animated: true)
     }
 
+    func popSheet() {
+        guard let sheetViewController = navigationController.presentedViewController as? SheetViewController else {
+            return
+        }
+        sheetCount -= 1
+        sheetViewController.pop(animated: true)
+    }
+
+    func showNextSheet() {
+        guard let sheetViewController = navigationController.presentedViewController as? SheetViewController else { return }
+
+        let viewController = PushPopViewController()
+        let configuration = PushPopViewController.sheetConfiguration
+        let sheetItem = SheetItem(viewController: viewController, configuration: configuration, scrollView: nil)
+
+        sheetCount += 1
+        viewController.title = String(sheetCount)
+
+        viewController.coordinator = self
+
+        sheetViewController.push(sheetItem: sheetItem, animated: true)
+    }
+
     func showSheetViewController(viewControllerType: BaseViewController.Type, backgroundView: SheetBackgroundView, title: String) {
+        sheetCount = 0
+
         let viewController = viewControllerType.init()
         viewController.coordinator = self
         viewController.title = title

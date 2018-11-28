@@ -40,17 +40,17 @@ extension SheetAnimationController: UIViewControllerAnimatedTransitioning {
         transitionContext.containerView.addSubview(sheetViewController.view)
 
         if isPresenting {
-            sheetViewController.sheetView?.contentView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+            sheetViewController.sheetView?.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
         } else {
             sheetViewController.backgroundDimmingAnimator.stopAnimation(true)
         }
 
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
             if self.isPresenting {
-                sheetViewController.sheetView?.contentView.transform = .identity
+                sheetViewController.sheetView?.transform = .identity
                 sheetViewController.backgroundView.applyBackground()
             } else {
-                sheetViewController.sheetView?.contentView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+                sheetViewController.sheetView?.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
                 sheetViewController.backgroundView.clearBackground()
             }
         }, completion: { _ in

@@ -22,6 +22,9 @@ public class SheetViewController: UIViewController {
     /// fullest position.
     let backgroundView: SheetBackgroundView
 
+    /// Object to manage the animation when pushing or popping sheets.
+    let transitionManager: SheetTransitionManager
+
     /// An array of the sheet items being managed by the view controller.
     private(set) var sheetItems = [SheetItem]()
 
@@ -42,9 +45,13 @@ public class SheetViewController: UIViewController {
     /// - Parameters:
     ///   - sheetItem: The `SheetItem` to display in the sheet.
     ///   - backgroundView: A background view that will dim behind the sheet.
+    ///   - transitionManager: The object that manages sheet transitions.
     ///
-    public init(sheetItem: SheetItem, backgroundView: SheetBackgroundView = DimmingSheetBackgroundView()) {
+    public init(sheetItem: SheetItem,
+                backgroundView: SheetBackgroundView = DimmingSheetBackgroundView(),
+                transitionManager: SheetTransitionManager = ForwardStackSheetTransitionManager()) {
         self.backgroundView = backgroundView
+        self.transitionManager = transitionManager
         super.init(nibName: nil, bundle: nil)
 
         sheetItems = [sheetItem]
@@ -78,8 +85,35 @@ public class SheetViewController: UIViewController {
             ])
 
         if let sheetItem = sheetItems.last {
-            addSheet(sheetItem)
+            transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
+    }
+
+    // MARK: Push/Pop Sheets
+
+    /// Pushes a new sheet item onto the sheet stack.
+    ///
+    /// - Parameters:
+    ///   - sheetItem: The sheet item to push onto the stack.
+    ///   - animated: True if the transition between the current and new sheet should be animated.
+    ///
+    public func push(sheetItem: SheetItem, animated: Bool) {
+        let fromSheetItem = sheetItems.last
+
+        sheetItems.append(sheetItem)
+
+        transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: sheetItem, forward: true, animated: animated)
+    }
+
+    /// Pops the current sheet off of the sheet stack.
+    ///
+    /// - Parameter animated: True if the transition between the current and previous sheet should be animated.
+    ///
+    public func pop(animated: Bool) {
+        let fromSheetItem = sheetItems.popLast()
+        let toSheetItem = sheetItems.last
+
+        transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: toSheetItem, forward: false, animated: animated)
     }
 
     // MARK: Private
@@ -97,6 +131,7 @@ public class SheetViewController: UIViewController {
         sheetView.scrollView = sheetItem.scrollView
         sheetView.translatesAutoresizingMaskIntoConstraints = false
         sheetView.backgroundAnimator = backgroundDimmingAnimator
+        sheetView.willMove(toSuperview: view)
         view.addSubview(sheetView)
 
         NSLayoutConstraint.activate([
@@ -106,8 +141,6 @@ public class SheetViewController: UIViewController {
             sheetView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
 
-        sheetItem.viewController.didMove(toParent: self)
-
         self.sheetView = sheetView
     }
 
@@ -115,6 +148,52 @@ public class SheetViewController: UIViewController {
     ///
     @objc private func handleTap() {
         delegate?.dismissSheetViewController()
+    }
+
+    /// Transition between two sheets.
+    ///
+    /// - Parameters:
+    ///   - from: The current sheet item that is being displayed.
+    ///   - to: The new sheet item that should be displayed.
+    ///   - forward: True when pushing a sheet, false when popping a sheet.
+    ///   - animated: True if the transition should be animated.
+    ///
+    private func transitionSheet(fromSheetItem: SheetItem?, toSheetItem: SheetItem?, forward: Bool, animated: Bool) {
+        guard let toSheetItem = toSheetItem else {
+            delegate?.dismissSheetViewController()
+            return
+        }
+
+        let fromSheetView = sheetView
+        let fromViewController = fromSheetItem?.viewController
+        fromSheetView?.backgroundAnimator = nil
+
+        addSheet(toSheetItem)
+
+        let toSheetView = sheetView
+        let toViewController = toSheetItem.viewController
+
+        let completion = {
+            fromViewController?.willMove(toParent: nil)
+            fromViewController?.removeFromParent()
+
+            fromSheetView?.willMove(toSuperview: nil)
+            fromSheetView?.removeFromSuperview()
+
+            toViewController.didMove(toParent: self)
+        }
+
+        if animated {
+            transitionManager.transition(
+                fromSheetView: fromSheetView,
+                toSheetView: toSheetView,
+                in: view,
+                forward: forward,
+                completion: completion
+            )
+        } else {
+            completion()
+        }
     }
 }
 

@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         case half = "Half Size"
         case fittingSize = "Fitting Size"
         case fullSize = "Full Size"
+        case pushPop = "Push/Pop"
         case scrollViewHeaderFooter = "Scroll View with Header and Footer"
 
         var backgroundView: SheetBackgroundView {
@@ -45,6 +46,8 @@ class ViewController: UIViewController {
                 return FittingSizeViewController.self
             case .fullSize:
                 return FullSizeViewController.self
+            case .pushPop:
+                return PushPopViewController.self
             case .scrollViewHeaderFooter:
                 return ScrollViewHeaderFooterViewController.self
             }

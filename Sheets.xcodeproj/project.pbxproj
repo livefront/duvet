@@ -14,6 +14,13 @@
 		C9496FBC219B788A003753AC /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496FBB219B788A003753AC /* SheetView.swift */; };
 		C9496FBE219B78AF003753AC /* SheetConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496FBD219B78AF003753AC /* SheetConfiguration.swift */; };
 		C9496FC0219B78C4003753AC /* SheetPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496FBF219B78C4003753AC /* SheetPosition.swift */; };
+		C94A275D21B1B6830059C398 /* SheetConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A275C21B1B6830059C398 /* SheetConfigurationTests.swift */; };
+		C94A275F21B1C4420059C398 /* SheetHandleConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A275E21B1C4420059C398 /* SheetHandleConfigurationTests.swift */; };
+		C94A276221B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A276121B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift */; };
+		C94A276421B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A276321B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift */; };
+		C99A872A21AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872921AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift */; };
+		C99A872C21AEF0F200F8E7D2 /* SheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872B21AEF0F200F8E7D2 /* SheetTransitionManager.swift */; };
+		C99A872E21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872D21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift */; };
 		C9ADF9A5219F0FAE00F7D4EC /* SheetBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADF9A4219F0FAE00F7D4EC /* SheetBackgroundView.swift */; };
 		C9ADF9A7219F0FBF00F7D4EC /* DimmingSheetBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADF9A6219F0FBF00F7D4EC /* DimmingSheetBackgroundView.swift */; };
 		C9ADF9A9219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9ADF9A8219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift */; };
@@ -53,6 +60,13 @@
 		C9496FBB219B788A003753AC /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		C9496FBD219B78AF003753AC /* SheetConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfiguration.swift; sourceTree = "<group>"; };
 		C9496FBF219B78C4003753AC /* SheetPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPosition.swift; sourceTree = "<group>"; };
+		C94A275C21B1B6830059C398 /* SheetConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetConfigurationTests.swift; sourceTree = "<group>"; };
+		C94A275E21B1C4420059C398 /* SheetHandleConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHandleConfigurationTests.swift; sourceTree = "<group>"; };
+		C94A276121B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardStackSheetTransitionManagerTests.swift; sourceTree = "<group>"; };
+		C94A276321B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardStackSheetTarnsitionManager.swift; sourceTree = "<group>"; };
+		C99A872921AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardStackSheetTransitionManager.swift; sourceTree = "<group>"; };
+		C99A872B21AEF0F200F8E7D2 /* SheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTransitionManager.swift; sourceTree = "<group>"; };
+		C99A872D21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardStackSheetTransitionManager.swift; sourceTree = "<group>"; };
 		C9ADF9A4219F0FAE00F7D4EC /* SheetBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetBackgroundView.swift; sourceTree = "<group>"; };
 		C9ADF9A6219F0FBF00F7D4EC /* DimmingSheetBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingSheetBackgroundView.swift; sourceTree = "<group>"; };
 		C9ADF9A8219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredSheetBackgroundView.swift; sourceTree = "<group>"; };
@@ -115,6 +129,7 @@
 				C9D1F68521B07D1300D8FA0C /* Configuration */,
 				C9ADF9AA219F10F000F7D4EC /* PresentationAnimation */,
 				C9496FB0219B2D46003753AC /* Support */,
+				C99A872821AEE6E000F8E7D2 /* SheetTransition */,
 				C9ADF9AB219F1B8A00F7D4EC /* SheetHandleView.swift */,
 				C9C2837E219F32FB006E2C2B /* SheetItem.swift */,
 				C9496FBF219B78C4003753AC /* SheetPosition.swift */,
@@ -129,10 +144,12 @@
 		C9496F80219B2A4A003753AC /* SheetsTests */ = {
 			isa = PBXGroup;
 			children = (
-				C9C283C1219F79C3006E2C2B /* TestHelpers */,
 				C9C28380219F51A3006E2C2B /* BackgroundView */,
+				C94A275B21B1B66B0059C398 /* Configuration */,
 				C9C28386219F538C006E2C2B /* PresentationAnimation */,
+				C94A276021B1C4A90059C398 /* SheetTransition */,
 				C9C28385219F5381006E2C2B /* Support */,
+				C9C283C1219F79C3006E2C2B /* TestHelpers */,
 				C9C2838B219F6137006E2C2B /* SheetHandleViewTests.swift */,
 				C9C2838D219F621E006E2C2B /* SheetViewTests.swift */,
 				C9C2838F219F6227006E2C2B /* SheetViewControllerTests.swift */,
@@ -146,6 +163,34 @@
 				C9496F77219B2A4A003753AC /* Info.plist */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		C94A275B21B1B66B0059C398 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C94A275C21B1B6830059C398 /* SheetConfigurationTests.swift */,
+				C94A275E21B1C4420059C398 /* SheetHandleConfigurationTests.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		C94A276021B1C4A90059C398 /* SheetTransition */ = {
+			isa = PBXGroup;
+			children = (
+				C94A276121B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift */,
+				C94A276321B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift */,
+			);
+			path = SheetTransition;
+			sourceTree = "<group>";
+		};
+		C99A872821AEE6E000F8E7D2 /* SheetTransition */ = {
+			isa = PBXGroup;
+			children = (
+				C99A872D21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift */,
+				C99A872921AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift */,
+				C99A872B21AEF0F200F8E7D2 /* SheetTransitionManager.swift */,
+			);
+			path = SheetTransition;
 			sourceTree = "<group>";
 		};
 		C9ADF9A3219F0F9C00F7D4EC /* BackgroundView */ = {
@@ -344,9 +389,12 @@
 				C9ADF9AC219F1B8A00F7D4EC /* SheetHandleView.swift in Sources */,
 				C9ADF9A5219F0FAE00F7D4EC /* SheetBackgroundView.swift in Sources */,
 				C9496FBA219B7736003753AC /* SheetTransitioningDelegate.swift in Sources */,
+				C99A872A21AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift in Sources */,
 				C9496FBE219B78AF003753AC /* SheetConfiguration.swift in Sources */,
+				C99A872C21AEF0F200F8E7D2 /* SheetTransitionManager.swift in Sources */,
 				C9496FB8219B76E0003753AC /* SheetAnimationController.swift in Sources */,
 				C9C2837D219F323F006E2C2B /* SheetViewControllerDelegate.swift in Sources */,
+				C99A872E21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift in Sources */,
 				C9ADF9A9219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift in Sources */,
 				C9496FBC219B788A003753AC /* SheetView.swift in Sources */,
 				C9C2837F219F32FB006E2C2B /* SheetItem.swift in Sources */,
@@ -362,13 +410,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94A275D21B1B6830059C398 /* SheetConfigurationTests.swift in Sources */,
 				C9C2838A219F5E72006E2C2B /* SheetTransitioningDelegateTests.swift in Sources */,
 				C9C2838C219F6137006E2C2B /* SheetHandleViewTests.swift in Sources */,
 				C9C2838E219F621E006E2C2B /* SheetViewTests.swift in Sources */,
+				C94A276221B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift in Sources */,
 				C9C28384219F52F5006E2C2B /* DimmingSheetBackgroundViewTests.swift in Sources */,
 				C9C28390219F6227006E2C2B /* SheetViewControllerTests.swift in Sources */,
 				C9C28382219F51CB006E2C2B /* BlurredSheetBackgroundViewTests.swift in Sources */,
 				C9C28388219F539C006E2C2B /* SheetAnimationControllerTests.swift in Sources */,
+				C94A276421B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift in Sources */,
+				C94A275F21B1C4420059C398 /* SheetHandleConfigurationTests.swift in Sources */,
 				C9C283C3219F79D6006E2C2B /* UIGestureRecognizer+ForceGesture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
