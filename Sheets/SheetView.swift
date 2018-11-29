@@ -1,6 +1,6 @@
 import UIKit
 
-/// A view that displays in the `SheetViewController` that displays a view in the sheet.
+/// Container view for the contents of a sheet displayed in the `SheetViewController`.
 ///
 class SheetView: UIView {
 
