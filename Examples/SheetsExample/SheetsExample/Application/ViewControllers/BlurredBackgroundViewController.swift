@@ -2,5 +2,9 @@ import Sheets
 import UIKit
 
 class BlurredBackgroundViewController: BaseViewController, ProvidesSheetConfiguration {
-    static let sheetConfiguration = SheetConfiguration(initialPosition: .open, supportedPositions: [.open, .half, .closed])
+    static let sheetConfiguration = SheetConfiguration(
+        handleConfiguration: SheetHandleConfiguration(),
+        initialPosition: .open,
+        supportedPositions: [.open, .half, .closed]
+    )
 }

@@ -29,6 +29,7 @@
 		C9C2838E219F621E006E2C2B /* SheetViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2838D219F621E006E2C2B /* SheetViewTests.swift */; };
 		C9C28390219F6227006E2C2B /* SheetViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C2838F219F6227006E2C2B /* SheetViewControllerTests.swift */; };
 		C9C283C3219F79D6006E2C2B /* UIGestureRecognizer+ForceGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C283C2219F79D6006E2C2B /* UIGestureRecognizer+ForceGesture.swift */; };
+		C9D1F68721B07D2300D8FA0C /* SheetHandleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D1F68621B07D2300D8FA0C /* SheetHandleConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		C9C2838D219F621E006E2C2B /* SheetViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewTests.swift; sourceTree = "<group>"; };
 		C9C2838F219F6227006E2C2B /* SheetViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetViewControllerTests.swift; sourceTree = "<group>"; };
 		C9C283C2219F79D6006E2C2B /* UIGestureRecognizer+ForceGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+ForceGesture.swift"; sourceTree = "<group>"; };
+		C9D1F68621B07D2300D8FA0C /* SheetHandleConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHandleConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,9 +112,9 @@
 			isa = PBXGroup;
 			children = (
 				C9ADF9A3219F0F9C00F7D4EC /* BackgroundView */,
+				C9D1F68521B07D1300D8FA0C /* Configuration */,
 				C9ADF9AA219F10F000F7D4EC /* PresentationAnimation */,
 				C9496FB0219B2D46003753AC /* Support */,
-				C9496FBD219B78AF003753AC /* SheetConfiguration.swift */,
 				C9ADF9AB219F1B8A00F7D4EC /* SheetHandleView.swift */,
 				C9C2837E219F32FB006E2C2B /* SheetItem.swift */,
 				C9496FBF219B78C4003753AC /* SheetPosition.swift */,
@@ -197,6 +199,15 @@
 				C9C283C2219F79D6006E2C2B /* UIGestureRecognizer+ForceGesture.swift */,
 			);
 			path = TestHelpers;
+			sourceTree = "<group>";
+		};
+		C9D1F68521B07D1300D8FA0C /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C9496FBD219B78AF003753AC /* SheetConfiguration.swift */,
+				C9D1F68621B07D2300D8FA0C /* SheetHandleConfiguration.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +328,7 @@
 				C9ADF9A9219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift in Sources */,
 				C9496FBC219B788A003753AC /* SheetView.swift in Sources */,
 				C9C2837F219F32FB006E2C2B /* SheetItem.swift in Sources */,
+				C9D1F68721B07D2300D8FA0C /* SheetHandleConfiguration.swift in Sources */,
 				C9496FC0219B78C4003753AC /* SheetPosition.swift in Sources */,
 				C9ADF9A7219F0FBF00F7D4EC /* DimmingSheetBackgroundView.swift in Sources */,
 				C9C2837B219F31F6006E2C2B /* SheetViewDelegate.swift in Sources */,

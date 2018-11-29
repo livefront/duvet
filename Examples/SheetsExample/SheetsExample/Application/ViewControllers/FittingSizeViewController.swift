@@ -2,7 +2,7 @@ import Sheets
 import UIKit
 
 class FittingSizeViewController: BaseViewController, ProvidesSheetConfiguration {
-    static let sheetConfiguration = SheetConfiguration(displaysHandle: false, initialPosition: .fittingSize, supportedPositions: [.fittingSize])
+    static let sheetConfiguration = SheetConfiguration(initialPosition: .fittingSize, supportedPositions: [.fittingSize])
 
     // MARK: Properties
 

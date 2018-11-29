@@ -2,7 +2,10 @@ import Sheets
 import UIKit
 
 class ScrollViewHeaderFooterViewController: BaseViewController, ProvidesSheetConfiguration {
-    static let sheetConfiguration = SheetConfiguration(supportedPositions: [.open, .half, .closed])
+    static let sheetConfiguration = SheetConfiguration(
+        handleConfiguration: SheetHandleConfiguration(),
+        supportedPositions: [.open, .half, .closed]
+    )
 
     // MARK: Properties
 

@@ -9,12 +9,8 @@ public struct SheetConfiguration: Equatable {
     /// The corner radius of the sheet.
     public var cornerRadius: CGFloat
 
-    /// True if the handle for the sheet should be displayed.
-    public var displaysHandle: Bool
-
-    /// The number of points that the handle should sit above the sheet. A negative value will move
-    /// it into the sheet.
-    public var handleTopInset: CGFloat
+    /// Configuration parameters for displaying a sheet's handle.
+    public var handleConfiguration: SheetHandleConfiguration?
 
     /// The sheets initial position.
     public var initialPosition: SheetPosition
@@ -31,21 +27,19 @@ public struct SheetConfiguration: Equatable {
     ///
     /// - Parameters:
     ///   - cornerRadius: The corner radius of the sheet.
-    ///   - displaysHandle: True if the handle for the sheet should be displayed.
+    ///   - handleConfiguration: Configuration parameters for displaying a sheet handle.
     ///   - initialPosition: The sheets initial position.
     ///   - supportedPositions: The list of positions that the view is allowed to be adjusted to via
     ///     panning the view.
     ///   - topInset: The number of points that the sheet should sit below the top safe area.
     ///
     public init(cornerRadius: CGFloat = 10,
-                displaysHandle: Bool = true,
-                handleTopInset: CGFloat = 16,
+                handleConfiguration: SheetHandleConfiguration? = nil,
                 initialPosition: SheetPosition = .open,
                 supportedPositions: [SheetPosition] = [.open],
                 topInset: CGFloat = 44) {
         self.cornerRadius = cornerRadius
-        self.displaysHandle = displaysHandle
-        self.handleTopInset = handleTopInset
+        self.handleConfiguration = handleConfiguration
         self.initialPosition = initialPosition
         self.supportedPositions = supportedPositions
         self.topInset = topInset

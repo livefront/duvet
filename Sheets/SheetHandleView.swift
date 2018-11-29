@@ -2,7 +2,7 @@ import UIKit
 
 /// A view that represents a handle in a sheet indicating that the view can be dragged up/down.
 ///
-class SheetHandleView: UIView {
+public class SheetHandleView: UIView {
 
     // MARK: Properties
 
@@ -37,6 +37,9 @@ class SheetHandleView: UIView {
             handleView.leadingAnchor.constraint(equalTo: leadingAnchor),
             handleView.trailingAnchor.constraint(equalTo: trailingAnchor),
             handleView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            heightAnchor.constraint(equalToConstant: 6),
+            widthAnchor.constraint(equalToConstant: 48),
             ])
     }
 

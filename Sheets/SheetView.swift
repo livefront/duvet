@@ -111,7 +111,8 @@ class SheetView: UIView {
 
     /// UIEdgeInsets for the contentView which includes the handle view's position.
     private var contentTouchInsets: UIEdgeInsets {
-        let yInset = configuration.displaysHandle ? min(-configuration.handleTopInset - 16, 0) : 0
+        guard let handleConfiguration = configuration.handleConfiguration else { return .zero }
+        let yInset = min(-handleConfiguration.topInset - 16, 0)
         return UIEdgeInsets(top: yInset, left: 0, bottom: 0, right: 0)
     }
 
@@ -143,14 +144,12 @@ class SheetView: UIView {
             view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             ])
 
-        if configuration.displaysHandle {
+        if let handleConfiguration = configuration.handleConfiguration {
             handleView.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(handleView)
 
             NSLayoutConstraint.activate([
-                handleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -configuration.handleTopInset),
-                handleView.heightAnchor.constraint(equalToConstant: 6),
-                handleView.widthAnchor.constraint(equalToConstant: 48),
+                handleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -handleConfiguration.topInset),
                 handleView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
                 ])
         }
