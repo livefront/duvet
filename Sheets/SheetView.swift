@@ -1,5 +1,7 @@
 import UIKit
 
+// swiftlint:disable file_length
+
 /// Container view for the contents of a sheet displayed in the `SheetViewController`.
 ///
 class SheetView: UIView {
@@ -84,7 +86,7 @@ class SheetView: UIView {
 
     /// The original `UIScrollViewDelegate` on `scrollView`. Any scroll view delegate calls will be
     /// forwarded to this original delegate.
-    var scrollViewDelegate: UIScrollViewDelegate?
+    weak var scrollViewDelegate: UIScrollViewDelegate?
 
     /// The second from the top supported position for the sheet.
     var secondPosition: SheetPosition? {
@@ -314,53 +316,68 @@ extension SheetView {
     @objc private func handle(gestureRecognizer: UIPanGestureRecognizer) {
         switch gestureRecognizer {
         case scrollView?.panGestureRecognizer:
-            guard let scrollView = scrollView else { break }
-
-            if scrollView.contentOffset.y < 0 {
-                scrollView.contentOffset.y = 0
-            }
+            handleScrollViewPan(gestureRecognizer: gestureRecognizer)
         case panGestureRecognizer:
-            let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
-            let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
-            let location = gestureRecognizer.location(in: gestureRecognizer.view)
-
-            // Determine if the scrollView should handle the gesture or if the user is interacting
-            // with the sheet itself.
-            guard shouldScrollViewHandleGesture(location: location) == false else {
-                stopSheetInteraction()
-                panningEnded(translation: translation, velocity: velocity)
-                break
-            }
-
-            // Check if the sheet interaction needs stop (due to the sheet being at it's max
-            // height). This lets the scroll view take over the gesture.
-            if sheetInteractionInProgress && shouldStopSheetInteraction(translation: translation) {
-                stopSheetInteraction()
-                panningEnded(translation: translation, velocity: velocity)
-                break
-            }
-
-            // Check if the sheet should start an interaction. This confirms that there's a
-            // supported position in the direction of the pan translation.
-            if !shouldStartSheetInteraction(translation: translation) {
-                stopSheetInteraction()
-                panningEnded(translation: translation, velocity: velocity)
-            }
-
-            switch gestureRecognizer.state {
-            case .began:
-                startSheetInteraction(translation: translation)
-            case .changed:
-                startSheetInteraction(translation: translation)
-                panningChanged(translation: translation)
-            case .cancelled, .ended, .failed:
-                stopSheetInteraction()
-                panningEnded(translation: translation, velocity: velocity)
-            case .possible:
-                break
-            }
-
+            handleSheetPan(gestureRecognizer: gestureRecognizer)
         default:
+            break
+        }
+    }
+
+    /// Handles the scroll view's pan gesture recognizer.
+    ///
+    /// - Parameter gestureRecognizer: The scroll view's pan gesture recognizer.
+    ///
+    private func handleScrollViewPan(gestureRecognizer: UIPanGestureRecognizer) {
+        guard let scrollView = scrollView else { return }
+
+        if scrollView.contentOffset.y < 0 {
+            scrollView.contentOffset.y = 0
+        }
+    }
+
+    /// Handles the sheet's pan gesture recognizer.
+    ///
+    /// - Parameter gestureRecognizer: The sheet's pan gesture recognizer.
+    ///
+    private func handleSheetPan(gestureRecognizer: UIPanGestureRecognizer) {
+        let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
+        let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
+        let location = gestureRecognizer.location(in: gestureRecognizer.view)
+
+        // Determine if the scrollView should handle the gesture or if the user is interacting
+        // with the sheet itself.
+        guard shouldScrollViewHandleGesture(location: location) == false else {
+            stopSheetInteraction()
+            panningEnded(translation: translation, velocity: velocity)
+            return
+        }
+
+        // Check if the sheet interaction needs stop (due to the sheet being at it's max
+        // height). This lets the scroll view take over the gesture.
+        if sheetInteractionInProgress && shouldStopSheetInteraction(translation: translation) {
+            stopSheetInteraction()
+            panningEnded(translation: translation, velocity: velocity)
+            return
+        }
+
+        // Check if the sheet should start an interaction. This confirms that there's a
+        // supported position in the direction of the pan translation.
+        if !shouldStartSheetInteraction(translation: translation) {
+            stopSheetInteraction()
+            panningEnded(translation: translation, velocity: velocity)
+        }
+
+        switch gestureRecognizer.state {
+        case .began:
+            startSheetInteraction(translation: translation)
+        case .changed:
+            startSheetInteraction(translation: translation)
+            panningChanged(translation: translation)
+        case .cancelled, .ended, .failed:
+            stopSheetInteraction()
+            panningEnded(translation: translation, velocity: velocity)
+        case .possible:
             break
         }
     }

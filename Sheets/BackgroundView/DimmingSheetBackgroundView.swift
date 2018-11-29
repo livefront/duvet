@@ -21,7 +21,7 @@ public class DimmingSheetBackgroundView: SheetBackgroundView {
     }
 
     // MARK: SheetBackgroundView
-    
+
     public override func applyBackground() {
         alpha = 0.5
         backgroundColor = .black
