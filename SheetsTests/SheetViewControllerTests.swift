@@ -29,8 +29,8 @@ class SheetViewControllerTests: XCTestCase {
     func testViewDidLoadAddsTheBackgroundView() {
         subject.viewDidLoad()
 
-        XCTAssertTrue(subject.backgroundView.isUserInteractionEnabled)
-        XCTAssertEqual(subject.backgroundView.gestureRecognizers, [subject.tapGestureRecognizer])
+        XCTAssertTrue(subject.view.isUserInteractionEnabled)
+        XCTAssertEqual(subject.view.gestureRecognizers, [subject.tapGestureRecognizer])
         XCTAssertTrue(subject.tapGestureRecognizer.delegate === subject)
         XCTAssertTrue(subject.view.subviews.contains(subject.backgroundView))
     }

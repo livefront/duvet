@@ -172,7 +172,8 @@ class SheetView: UIView {
     // MARK: UIView
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if contentView.frame.inset(by: contentTouchInsets).contains(point) {
+        let handleViewPoint = convert(point, to: contentView)
+        if contentView.frame.contains(point) || handleView.frame.contains(handleViewPoint) {
             return true
         }
 
@@ -188,8 +189,11 @@ class SheetView: UIView {
         if contentView.frame.contains(point) {
             let contentViewPoint = convert(point, to: contentView)
             return contentView.hitTest(contentViewPoint, with: event)
-        } else if contentView.frame.inset(by: contentTouchInsets).contains(point) {
-            // Extend the contentView hitTest to include the handle view when the handle is above the content view.
+        }
+
+        // Extend the handleView's tappable area slightly larger than its small frame.
+        let handleViewPoint = convert(point, to: contentView)
+        if handleView.frame.insetBy(dx: -16, dy: -16).contains(handleViewPoint) {
             return handleView
         }
 
