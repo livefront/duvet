@@ -465,9 +465,15 @@ extension SheetView {
             // (dimmed -> clear). It needs to be reversed when animating back to dimmed.
             animator.isReversed = targetPositon == topPosition
 
-            let timingParameters = UISpringTimingParameters(dampingRatio: 0.9, initialVelocity: CGVector(dx: 0, dy: springVelocity))
-            let durationFactor = CGFloat(duration / animator.duration)
-            animator.continueAnimation(withTimingParameters: timingParameters, durationFactor: durationFactor)
+            let completedValue: CGFloat = animator.isReversed ? 1 : 0
+            if !animator.fractionComplete.isEqual(to: completedValue) {
+                let timingParameters = UISpringTimingParameters(
+                    dampingRatio: 0.9,
+                    initialVelocity: CGVector(dx: 0, dy: springVelocity)
+                )
+                let durationFactor = CGFloat(duration / animator.duration)
+                animator.continueAnimation(withTimingParameters: timingParameters, durationFactor: durationFactor)
+            }
         }
     }
 
