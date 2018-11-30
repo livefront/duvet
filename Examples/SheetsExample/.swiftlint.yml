@@ -1,0 +1,14 @@
+disabled_rules:
+  - function_body_length
+  - line_length
+  - todo
+
+included:
+  - SheetsExample
+
+trailing_comma:
+    mandatory_comma: true
+
+variable_name:
+  excluded:
+    - id

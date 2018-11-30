@@ -134,11 +134,11 @@ class MockUIViewControllerContextTransitioning: NSObject, UIViewControllerContex
         }
     }
 
-    func initialFrame(for vc: UIViewController) -> CGRect {
+    func initialFrame(for viewController: UIViewController) -> CGRect {
         return initialFrame
     }
 
-    func finalFrame(for vc: UIViewController) -> CGRect {
+    func finalFrame(for viewController: UIViewController) -> CGRect {
         return finalFrame
     }
 }

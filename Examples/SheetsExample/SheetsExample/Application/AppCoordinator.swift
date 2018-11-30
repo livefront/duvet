@@ -17,7 +17,7 @@ class DefaultAppCoordinator {
 
     private let navigationController = UINavigationController()
 
-    private let sheetTransitioningDelegate = SheetTransitioningDelegate()
+    private let sheetTransitioningDelegate = SheetTransitioningDelegate()   // swiftlint:disable:this weak_delegate
 }
 
 // MARK: - AppCoordinator
