@@ -179,6 +179,14 @@ public class SheetView: UIView {
         return false
     }
 
+    override public func safeAreaInsetsDidChange() {
+        // Reset the height constraint to account for any heights that may be dependent on safe areas.
+        contentHeightConstraint.constant = height(at: position)
+
+        // Set the max height in `fittingSize` to be that of the `open` position.
+        fittingSizeMaxHeightConstraint.constant = height(at: .open)
+    }
+
     // MARK: CALayer
 
     override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -198,12 +206,22 @@ public class SheetView: UIView {
         return super.hitTest(point, with: event)
     }
 
-    override public func safeAreaInsetsDidChange() {
-        // Reset the height constraint to account for any heights that may be dependent on safe areas.
-        contentHeightConstraint.constant = height(at: position)
+    // MARK: NSObject
 
-        // Set the max height in `fittingSize` to be that of the `open` position.
-        fittingSizeMaxHeightConstraint.constant = height(at: .open)
+    override public func responds(to aSelector: Selector!) -> Bool {
+        // Check if the selector should be forwarded to the scroll view delegate.
+        guard let delegate = scrollViewDelegate, delegate.responds(to: aSelector) else {
+            return super.responds(to: aSelector)
+        }
+        return true
+    }
+
+    override public func forwardingTarget(for aSelector: Selector!) -> Any? {
+        // Check if the selector should be forwarded to the scroll view delegate.
+        guard let delegate = scrollViewDelegate, delegate.responds(to: aSelector) else {
+            return super.forwardingTarget(for: aSelector)
+        }
+        return delegate
     }
 
     // MARK: Keyboard Adjustment
@@ -680,6 +698,8 @@ extension SheetView: UIGestureRecognizerDelegate {
 
 extension SheetView: UIScrollViewDelegate {
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        scrollViewDelegate?.scrollViewWillEndDragging?(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+
         if stopScrolling {
             // Prevent the scroll view from scrolling as the sheet is dragged to a new position.
             targetContentOffset.pointee = initialContentOffset
