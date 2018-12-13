@@ -85,10 +85,6 @@ public class SheetView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        backgroundAnimator?.stopAnimation(true)
-    }
-
     // MARK: UIView
 
     override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {

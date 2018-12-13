@@ -11,12 +11,12 @@ public class SheetViewController: UIViewController {
     public weak var delegate: SheetViewControllerDelegate?
 
     /// Property animator for dimming the background view as the sheet changes sizes.
-    let backgroundDimmingAnimator: UIViewPropertyAnimator = {
-        let animator = UIViewPropertyAnimator(duration: 1, curve: .linear)
-        animator.scrubsLinearly = false
-        animator.pausesOnCompletion = true
-        return animator
-    }()
+    private(set) var backgroundDimmingAnimator: UIViewPropertyAnimator? {
+        didSet {
+            oldValue?.stopAnimation(true)
+            sheetView?.backgroundAnimator = backgroundDimmingAnimator
+        }
+    }
 
     /// The view that is displayed behind the sheet view. This will dim when the sheet is in its
     /// fullest position.
@@ -64,6 +64,10 @@ public class SheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        backgroundDimmingAnimator?.stopAnimation(true)
+    }
+
     // MARK: UIViewController
 
     public override func viewDidLoad() {
@@ -71,13 +75,7 @@ public class SheetViewController: UIViewController {
 
         view.addGestureRecognizer(tapGestureRecognizer)
         backgroundView.isUserInteractionEnabled = false
-
-        backgroundDimmingAnimator.addAnimations { [weak self] in
-            self?.backgroundView.clearBackground()
-        }
-
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.clearBackground()
         view.addSubview(backgroundView)
 
         NSLayoutConstraint.activate([
@@ -136,6 +134,25 @@ public class SheetViewController: UIViewController {
         self.sheetItems = sheetItems
 
         transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: sheetItems.last, forward: true, animated: animated)
+    }
+
+    // MARK: Internal
+
+    /// Resets the `UIViewPropertyAnimator` that dims the background view.
+    ///
+    /// Note: This should be called when the `SheetViewController` is presented. This fixes an issue
+    /// where the background view's opacity would fail to adjust interactively as the sheet's
+    /// content was panned between positions after the `SheetViewController` was dismissed and then
+    /// presented again.
+    ///
+    internal func configureBackgroundAnimator() {
+        let animator = UIViewPropertyAnimator(duration: 1, curve: .linear)
+        animator.scrubsLinearly = false
+        animator.pausesOnCompletion = true
+        animator.addAnimations { [weak backgroundView] in
+            backgroundView?.clearBackground()
+        }
+        self.backgroundDimmingAnimator = animator
     }
 
     // MARK: Private
