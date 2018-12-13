@@ -47,14 +47,17 @@ public class SheetViewController: UIViewController {
     ///   - backgroundView: A background view that will dim behind the sheet.
     ///   - transitionManager: The object that manages sheet transitions.
     ///
-    public init(sheetItem: SheetItem,
+    public init(sheetItem: SheetItem? = nil,
                 backgroundView: SheetBackgroundView = DimmingSheetBackgroundView(),
                 transitionManager: SheetTransitionManager = ForwardStackSheetTransitionManager()) {
         self.backgroundView = backgroundView
         self.transitionManager = transitionManager
         super.init(nibName: nil, bundle: nil)
 
-        sheetItems = [sheetItem]
+        if let sheetItem = sheetItem {
+            sheetItems = [sheetItem]
+            transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -93,10 +96,6 @@ public class SheetViewController: UIViewController {
                                        selector: #selector(adjustViewForKeyboard(notification:)),
                                        name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
-
-        if let sheetItem = sheetItems.last {
-            transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
-        }
     }
 
     // MARK: Push/Pop Sheets
@@ -124,6 +123,19 @@ public class SheetViewController: UIViewController {
         let toSheetItem = sheetItems.last
 
         transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: toSheetItem, forward: false, animated: animated)
+    }
+
+    /// Replaces the sheet items currently in the sheet stack with the specified items.
+    ///
+    /// - Parameters:
+    ///   - sheetItems: The sheet items to display in the stack.
+    ///   - animated: True if the transition should be animated.
+    ///
+    public func setSheetItems(_ sheetItems: [SheetItem], animated: Bool) {
+        let fromSheetItem = sheetItems.last
+        self.sheetItems = sheetItems
+
+        transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: sheetItems.last, forward: true, animated: animated)
     }
 
     // MARK: Private

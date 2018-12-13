@@ -114,6 +114,25 @@ class SheetViewControllerTests: XCTestCase {
         XCTAssertEqual(subject.sheetItems, [sheetItem])
         XCTAssertTrue(sheetView.contentView.subviews.contains(sheetItem.viewController.view))
     }
+
+    /// Setting the sheet items adds the sheet items to the stack and transitions to the last item in the array.
+    func testSetSheetItems() {
+        subject.viewDidLoad()
+
+        let sheetItems = [
+            SheetItem(viewController: UIViewController(), configuration: SheetConfiguration(), scrollView: nil),
+            SheetItem(viewController: UIViewController(), configuration: SheetConfiguration(), scrollView: nil),
+        ]
+
+        subject.setSheetItems(sheetItems, animated: false)
+
+        guard let sheetView = subject.sheetView else {
+            return XCTFail("sheetView shouldn't be nil")
+        }
+
+        XCTAssertEqual(subject.sheetItems, sheetItems)
+        XCTAssertTrue(sheetView.contentView.subviews.contains(sheetItems[1].viewController.view))
+    }
 }
 
 class MockSheetViewControllerDelegate: SheetViewControllerDelegate {
