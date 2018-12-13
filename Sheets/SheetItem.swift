@@ -7,13 +7,13 @@ public struct SheetItem: Equatable {
     // MARK: Properties
 
     /// The configuration properties for displaying the sheet.
-    let configuration: SheetConfiguration
+    public let configuration: SheetConfiguration
 
     /// An optional scroll view that the sheet should track to allow adjusting the position of the sheet.
-    let scrollView: UIScrollView?
+    public let scrollView: UIScrollView?
 
     /// The view controller that should be displayed in the sheet.
-    let viewController: UIViewController
+    public let viewController: UIViewController
 
     // MARK: Initialization
 
