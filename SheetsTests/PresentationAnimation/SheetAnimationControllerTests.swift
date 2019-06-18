@@ -66,7 +66,7 @@ class SheetAnimationControllerTests: XCTestCase {
 
         waitForExpectations(timeout: 1)
 
-        XCTAssertNotEqual(sheetViewController.sheetView?.contentView.transform, CGAffineTransform.identity)
+        XCTAssertNotEqual(sheetViewController.sheetView?.transform, CGAffineTransform.identity)
         XCTAssertEqual(sheetViewController.backgroundView.alpha, 0.0)
         XCTAssertTrue(didComplete)
     }

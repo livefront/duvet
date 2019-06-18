@@ -6,6 +6,10 @@ protocol AppCoordinator: class {
 
     func dismissSheet()
 
+    func popSheet()
+
+    func showNextSheet()
+
     func showSheetViewController(viewControllerType: BaseViewController.Type, backgroundView: SheetBackgroundView, title: String)
 
     func showViewController()
@@ -29,6 +33,27 @@ extension DefaultAppCoordinator: AppCoordinator {
 
     func dismissSheet() {
         navigationController.dismiss(animated: true)
+    }
+
+    func popSheet() {
+        guard let sheetViewController = navigationController.presentedViewController as? SheetViewController else {
+            return
+        }
+        sheetViewController.pop(animated: true)
+    }
+
+    func showNextSheet() {
+        guard let sheetViewController = navigationController.presentedViewController as? SheetViewController else { return }
+
+        let viewController = PushPopViewController()
+        let configuration = PushPopViewController.sheetConfiguration
+        let sheetItem = SheetItem(viewController: viewController, configuration: configuration, scrollView: nil)
+
+        viewController.title = String(sheetViewController.sheetItems.count)
+
+        viewController.coordinator = self
+
+        sheetViewController.push(sheetItem: sheetItem, animated: true)
     }
 
     func showSheetViewController(viewControllerType: BaseViewController.Type, backgroundView: SheetBackgroundView, title: String) {

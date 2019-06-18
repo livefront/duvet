@@ -4,7 +4,7 @@ import UIKit
 
 /// Container view for the contents of a sheet displayed in the `SheetViewController`.
 ///
-class SheetView: UIView {
+public class SheetView: UIView {
 
     // MARK: Properties
 
@@ -171,7 +171,7 @@ class SheetView: UIView {
 
     // MARK: UIView
 
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let handleViewPoint = convert(point, to: contentView)
         if contentView.frame.contains(point) || handleView.frame.contains(handleViewPoint) {
             return true
@@ -183,7 +183,7 @@ class SheetView: UIView {
 
     // MARK: CALayer
 
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !isHidden else { return super.hitTest(point, with: event) }
 
         if contentView.frame.contains(point) {
@@ -200,7 +200,7 @@ class SheetView: UIView {
         return super.hitTest(point, with: event)
     }
 
-    override func safeAreaInsetsDidChange() {
+    override public func safeAreaInsetsDidChange() {
         // Reset the height constraint to account for any heights that may be dependent on safe areas.
         contentHeightConstraint.constant = height(at: position)
 
@@ -642,7 +642,7 @@ extension SheetView {
 // MARK: - UIGestureRecognizerDelegate
 
 extension SheetView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         guard gestureRecognizer === panGestureRecognizer else { return false }
 
         // Recognize the pan gesture recognizer simultaneously with the scroll view's gesture recognizer.
@@ -653,7 +653,7 @@ extension SheetView: UIGestureRecognizerDelegate {
 // MARK: - UIScrollViewDelegate
 
 extension SheetView: UIScrollViewDelegate {
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if stopScrolling {
             // Prevent the scroll view from scrolling as the sheet is dragged to a new position.
             targetContentOffset.pointee = initialContentOffset

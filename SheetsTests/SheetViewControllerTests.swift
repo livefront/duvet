@@ -79,6 +79,41 @@ class SheetViewControllerTests: XCTestCase {
 
         XCTAssertTrue(dismissSheetViewControllerCalled)
     }
+
+    /// Pushing a sheet adds it to the stack and transitions the view to the current sheet.
+    func testSheetPush() {
+        subject.viewDidLoad()
+
+        let viewController = UIViewController()
+        let pushedSheetItem = SheetItem(viewController: viewController, configuration: SheetConfiguration(), scrollView: nil)
+
+        subject.push(sheetItem: pushedSheetItem, animated: false)
+
+        guard let sheetView = subject.sheetView else {
+            return XCTFail("sheetView shouldn't be nil")
+        }
+
+        XCTAssertEqual(subject.sheetItems, [sheetItem, pushedSheetItem])
+        XCTAssertTrue(sheetView.contentView.subviews.contains(viewController.view))
+    }
+
+    /// Popping a sheet removes it from the stack and transitions the view to the previous sheet.
+    func testSheetPop() {
+        subject.viewDidLoad()
+
+        let viewController = UIViewController()
+        let pushedSheetItem = SheetItem(viewController: viewController, configuration: SheetConfiguration(), scrollView: nil)
+
+        subject.push(sheetItem: pushedSheetItem, animated: false)
+        subject.pop(animated: false)
+
+        guard let sheetView = subject.sheetView else {
+            return XCTFail("sheetView shouldn't be nil")
+        }
+
+        XCTAssertEqual(subject.sheetItems, [sheetItem])
+        XCTAssertTrue(sheetView.contentView.subviews.contains(sheetItem.viewController.view))
+    }
 }
 
 class MockSheetViewControllerDelegate: SheetViewControllerDelegate {
