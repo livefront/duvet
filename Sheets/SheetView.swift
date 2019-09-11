@@ -344,10 +344,12 @@ extension SheetView {
     /// Adjusts the sheet view based on the pan gesture recognizer.
     ///
     @objc private func handle(gestureRecognizer: UIPanGestureRecognizer) {
-        endEditing(true)
-
         switch gestureRecognizer {
         case scrollView?.panGestureRecognizer:
+            if configuration.dismissKeyboardOnScroll {
+                endEditing(true)
+            }
+
             handleScrollViewPan(gestureRecognizer: gestureRecognizer)
         case panGestureRecognizer:
             handleSheetPan(gestureRecognizer: gestureRecognizer)
@@ -398,6 +400,7 @@ extension SheetView {
         if !shouldStartSheetInteraction(translation: translation) {
             stopSheetInteraction()
             panningEnded(translation: translation, velocity: velocity)
+            return
         }
 
         switch gestureRecognizer.state {
@@ -537,7 +540,7 @@ extension SheetView {
     /// - Returns: True if the sheet interaction should start.
     ///
     func shouldStartSheetInteraction(translation: CGPoint) -> Bool {
-        guard !translation.y.isZero else { return true }
+        guard !translation.y.isZero else { return false }
 
         let currentHeight = contentHeightConstraint.constant
 
@@ -578,6 +581,8 @@ extension SheetView {
     ///
     func startSheetInteraction(translation: CGPoint) {
         guard !sheetInteractionInProgress else { return }
+
+        endEditing(true)
 
         translationAtInteractionStart = translation
         initialContentOffset = scrollView?.contentOffset ?? .zero
