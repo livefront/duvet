@@ -1,6 +1,10 @@
 import Sheets
 import UIKit
 
+/// A sheet view that displays a text view for user input and a scroll view of items. The sheet view
+/// opens in the half position and then expands to the full position when the text view becomes the
+/// first responder. Corresponds to the "Keyboard - Expand with Keyboard" example.
+///
 class KeyboardFullViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(
         initialPosition: .half,

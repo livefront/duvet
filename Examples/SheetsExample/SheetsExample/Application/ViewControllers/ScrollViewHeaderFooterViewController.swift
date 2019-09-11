@@ -1,6 +1,9 @@
 import Sheets
 import UIKit
 
+/// A sheet view that displays content in a scroll view and has a fixed header and footer.
+/// Corresponds to the "Scroll View with Header and Footer" example.
+///
 class ScrollViewHeaderFooterViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(
         handleConfiguration: SheetHandleConfiguration(),
