@@ -10,6 +10,9 @@ public class SheetViewController: UIViewController {
     /// The delegate of the view controller.
     public weak var delegate: SheetViewControllerDelegate?
 
+    /// An array of the sheet items being managed by the view controller.
+    public private(set) var sheetItems = [SheetItem]()
+
     /// Property animator for dimming the background view as the sheet changes sizes.
     private(set) var backgroundDimmingAnimator: UIViewPropertyAnimator? {
         didSet {
@@ -24,9 +27,6 @@ public class SheetViewController: UIViewController {
 
     /// Object to manage the animation when pushing or popping sheets.
     let transitionManager: SheetTransitionManager
-
-    /// An array of the sheet items being managed by the view controller.
-    public private(set) var sheetItems = [SheetItem]()
 
     /// The current sheet being displayed.
     private(set) var sheetView: SheetView?
