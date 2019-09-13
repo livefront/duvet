@@ -115,13 +115,6 @@ public class SheetView: UIView {
     /// to calculate how far up/down the sheet should be adjusted.
     var translationAtInteractionStart: CGPoint = .zero
 
-    /// UIEdgeInsets for the contentView which includes the handle view's position.
-    private var contentTouchInsets: UIEdgeInsets {
-        guard let handleConfiguration = configuration.handleConfiguration else { return .zero }
-        let yInset = min(-handleConfiguration.topInset - 16, 0)
-        return UIEdgeInsets(top: yInset, left: 0, bottom: 0, right: 0)
-    }
-
     // MARK: Initialization
 
     /// Initialize a `SheetView`.
@@ -281,8 +274,13 @@ public class SheetView: UIView {
         ]
         fittingSizeHeightConstraint.priority = .init(999)
 
+        let handleInset = configuration.handleConfiguration?.topInset ?? 0
         closedConstraints = [
-            contentView.topAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            // Extend the constraint constant `handleInset` points below the bottomAnchor, so that
+            // the handle isn't seen when the sheet is in the closed position. `handleInset` can be
+            // negative if the handle is in the sheet (as opposed to above it), so in that case, the
+            // constraint constant should just be zero
+            contentView.topAnchor.constraint(equalTo: bottomAnchor, constant: max(handleInset, 0)),
         ]
     }
 
