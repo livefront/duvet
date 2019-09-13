@@ -1,6 +1,10 @@
 import Sheets
 import UIKit
 
+/// A sheet view that allows pushing new sheets onto a stack of sheet views and then popping them
+/// off of the stack, similar to how `UINavigationController` manages a stack of view controllers.
+/// Corresponds to the "Push/Pop" example.
+///
 class PushPopViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(supportedPositions: [.open, .half, .closed])
 

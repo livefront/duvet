@@ -1,8 +1,13 @@
 import Sheets
 import UIKit
 
+/// A sheet view that displays a text view for user input and a scroll view of items. The sheet view
+/// opens in the half position and then expands to the full position when the text view becomes the
+/// first responder. Corresponds to the "Keyboard - Expand with Keyboard" example.
+///
 class KeyboardFullViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(
+        dismissKeyboardOnScroll: false,
         initialPosition: .half,
         supportedPositions: [.half, .open]
     )
@@ -106,14 +111,14 @@ class KeyboardFullViewController: BaseViewController, ProvidesSheetConfiguration
                 return
         }
 
-        let keyboardFrameInView = view.convert(keyboardFrameEnd, from: nil)
-        let keyboardInScrollView = scrollView.frame.intersection(keyboardFrameInView)
+        let keyboardFrameInView = scrollView.convert(keyboardFrameEnd, from: nil)
+        let keyboardInScrollView = keyboardFrameInView.intersection(scrollView.safeAreaLayoutGuide.layoutFrame)
 
         let animationCurveValue = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
         let animationOptions = UIView.AnimationOptions(rawValue: animationCurveValue ?? UIView.AnimationOptions().rawValue)
 
         UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-            let bottomInset = max(keyboardInScrollView.height - self.scrollView.adjustedContentInset.bottom, 0)
+            let bottomInset = max(keyboardInScrollView.height, 0)
             self.scrollView.contentInset.bottom = bottomInset
             self.scrollView.scrollIndicatorInsets.bottom = bottomInset
         }, completion: nil)

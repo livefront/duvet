@@ -74,7 +74,8 @@ struct SheetLayoutManager {
         }
     }
 
-    /// The second from the top supported position for the sheet.
+    /// The second from the top supported position for the sheet. This is used to fade the
+    /// background to clear as the sheet is scrolled to this position.
     var secondPosition: SheetPosition? {
         let positions = positionsSortedByDistance(from: height(at: .open))
         guard positions.indices.contains(1) else { return nil }

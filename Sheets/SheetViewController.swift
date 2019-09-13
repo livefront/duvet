@@ -25,11 +25,11 @@ public class SheetViewController: UIViewController {
     /// fullest position.
     let backgroundView: SheetBackgroundView
 
-    /// Object to manage the animation when pushing or popping sheets.
-    let transitionManager: SheetTransitionManager
-
     /// The current sheet being displayed.
     private(set) var sheetView: SheetView?
+
+    /// Object to manage the animation when pushing or popping sheets.
+    let transitionManager: SheetTransitionManager
 
     /// The tap gesture recognizer for detecting taps on the background view that should dismiss the sheet.
     private(set) lazy var tapGestureRecognizer: UITapGestureRecognizer = {
