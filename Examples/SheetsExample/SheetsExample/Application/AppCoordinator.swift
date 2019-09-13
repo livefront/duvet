@@ -21,8 +21,6 @@ class DefaultAppCoordinator {
 
     private let navigationController = UINavigationController()
 
-    private var sheetCount = 0
-
     private let sheetTransitioningDelegate = SheetTransitioningDelegate()   // swiftlint:disable:this weak_delegate
 }
 
@@ -41,7 +39,6 @@ extension DefaultAppCoordinator: AppCoordinator {
         guard let sheetViewController = navigationController.presentedViewController as? SheetViewController else {
             return
         }
-        sheetCount -= 1
         sheetViewController.pop(animated: true)
     }
 
@@ -52,8 +49,7 @@ extension DefaultAppCoordinator: AppCoordinator {
         let configuration = PushPopViewController.sheetConfiguration
         let sheetItem = SheetItem(viewController: viewController, configuration: configuration, scrollView: nil)
 
-        sheetCount += 1
-        viewController.title = String(sheetCount)
+        viewController.title = String(sheetViewController.sheetItems.count)
 
         viewController.coordinator = self
 
@@ -61,8 +57,6 @@ extension DefaultAppCoordinator: AppCoordinator {
     }
 
     func showSheetViewController(viewControllerType: BaseViewController.Type, backgroundView: SheetBackgroundView, title: String) {
-        sheetCount = 0
-
         let viewController = viewControllerType.init()
         viewController.coordinator = self
         viewController.title = title

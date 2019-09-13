@@ -26,7 +26,7 @@ public class SheetViewController: UIViewController {
     let transitionManager: SheetTransitionManager
 
     /// An array of the sheet items being managed by the view controller.
-    private(set) var sheetItems = [SheetItem]()
+    public private(set) var sheetItems = [SheetItem]()
 
     /// The current sheet being displayed.
     private(set) var sheetView: SheetView?

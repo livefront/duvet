@@ -1,11 +1,19 @@
 import Sheets
 import UIKit
 
+/// A sheet view that is sized to fit the content of the view. This example just supports the
+/// fitting size. Corresponds to the "Fitting Size" example.
+///
 class FittingSizeViewController: BaseViewController, ProvidesSheetConfiguration {
-    static let sheetConfiguration = SheetConfiguration(initialPosition: .fittingSize, supportedPositions: [.fittingSize])
+    static let sheetConfiguration = SheetConfiguration(
+        initialPosition: .fittingSize,
+        supportedPositions: [.fittingSize]
+    )
 
     // MARK: Properties
 
+    /// Label to display text in the view used to demonstate how the sheet can be sized according to
+    /// the content in the view.
     let label: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true

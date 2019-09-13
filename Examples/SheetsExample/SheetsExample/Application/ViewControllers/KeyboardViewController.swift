@@ -1,6 +1,12 @@
 import Sheets
 import UIKit
 
+/// A sheet view that displays a text view for user input. The sheet view is sized to fit the
+/// content. When the text view becomes the first responder, the position of the sheet is adjusted
+/// to account for the size of the keyboard. Corresponds to the "Keyboard - Fitting Size" example.
+/// When a sheet view's position is `SheetPosition.fittingSize` the sheet view will handle keyboard
+/// management by keeping the contained view above the keyboard.
+///
 class KeyboardViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(
         initialPosition: .fittingSize,

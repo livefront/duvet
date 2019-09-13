@@ -1,5 +1,7 @@
 import UIKit
 
+// swiftlint:disable file_length
+
 /// Container view for the contents of a sheet displayed in the `SheetViewController`.
 ///
 public class SheetView: UIView {
@@ -142,10 +144,12 @@ public class SheetView: UIView {
     /// Adjusts the sheet view based on the pan gesture recognizer.
     ///
     @objc func handle(gestureRecognizer: UIPanGestureRecognizer) {
-        endEditing(true)
-
         switch gestureRecognizer {
         case scrollView?.panGestureRecognizer:
+            if configuration.dismissKeyboardOnScroll {
+                endEditing(true)
+            }
+
             handleScrollViewPan(gestureRecognizer: gestureRecognizer)
         case panGestureRecognizer:
             handleSheetPan(gestureRecognizer: gestureRecognizer)
@@ -186,6 +190,14 @@ public class SheetView: UIView {
         // Check if the sheet interaction needs stop (due to the sheet being at it's max
         // height). This lets the scroll view take over the gesture.
         if sheetInteractionInProgress && shouldStopSheetInteraction(translation: translation) {
+            stopSheetInteraction()
+            panningEnded(translation: translation, velocity: velocity)
+            return
+        }
+
+        // Check if the sheet should start an interaction. This confirms that there's a
+        // supported position in the direction of the pan translation.
+        if !shouldStartSheetInteraction(translation: translation) {
             stopSheetInteraction()
             panningEnded(translation: translation, velocity: velocity)
             return
@@ -352,6 +364,8 @@ public class SheetView: UIView {
     ///
     func startSheetInteraction(translation: CGPoint) {
         guard !sheetInteractionInProgress else { return }
+
+        endEditing(true)
 
         translationAtInteractionStart = translation
         initialContentOffset = scrollView?.contentOffset ?? .zero
