@@ -41,8 +41,6 @@ extension SheetAnimationController: UIViewControllerAnimatedTransitioning {
 
         if isPresenting {
             sheetViewController.sheetView?.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
-        } else {
-            sheetViewController.backgroundDimmingAnimator.stopAnimation(true)
         }
 
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
@@ -51,9 +49,13 @@ extension SheetAnimationController: UIViewControllerAnimatedTransitioning {
                 sheetViewController.backgroundView.applyBackground()
             } else {
                 sheetViewController.sheetView?.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+                sheetViewController.backgroundDimmingAnimator?.stopAnimation(true)
                 sheetViewController.backgroundView.clearBackground()
             }
         }, completion: { _ in
+            if self.isPresenting {
+                sheetViewController.configureBackgroundAnimator()
+            }
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
     }

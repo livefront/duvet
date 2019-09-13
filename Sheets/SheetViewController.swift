@@ -10,26 +10,26 @@ public class SheetViewController: UIViewController {
     /// The delegate of the view controller.
     public weak var delegate: SheetViewControllerDelegate?
 
+    /// An array of the sheet items being managed by the view controller.
+    public private(set) var sheetItems = [SheetItem]()
+
     /// Property animator for dimming the background view as the sheet changes sizes.
-    let backgroundDimmingAnimator: UIViewPropertyAnimator = {
-        let animator = UIViewPropertyAnimator(duration: 1, curve: .linear)
-        animator.scrubsLinearly = false
-        animator.pausesOnCompletion = true
-        return animator
-    }()
+    private(set) var backgroundDimmingAnimator: UIViewPropertyAnimator? {
+        didSet {
+            oldValue?.stopAnimation(true)
+            sheetView?.backgroundAnimator = backgroundDimmingAnimator
+        }
+    }
 
     /// The view that is displayed behind the sheet view. This will dim when the sheet is in its
     /// fullest position.
     let backgroundView: SheetBackgroundView
 
-    /// Object to manage the animation when pushing or popping sheets.
-    let transitionManager: SheetTransitionManager
-
-    /// An array of the sheet items being managed by the view controller.
-    public private(set) var sheetItems = [SheetItem]()
-
     /// The current sheet being displayed.
     private(set) var sheetView: SheetView?
+
+    /// Object to manage the animation when pushing or popping sheets.
+    let transitionManager: SheetTransitionManager
 
     /// The tap gesture recognizer for detecting taps on the background view that should dismiss the sheet.
     private(set) lazy var tapGestureRecognizer: UITapGestureRecognizer = {
@@ -47,18 +47,24 @@ public class SheetViewController: UIViewController {
     ///   - backgroundView: A background view that will dim behind the sheet.
     ///   - transitionManager: The object that manages sheet transitions.
     ///
-    public init(sheetItem: SheetItem,
+    public init(sheetItem: SheetItem? = nil,
                 backgroundView: SheetBackgroundView = DimmingSheetBackgroundView(),
                 transitionManager: SheetTransitionManager = ForwardStackSheetTransitionManager()) {
         self.backgroundView = backgroundView
         self.transitionManager = transitionManager
         super.init(nibName: nil, bundle: nil)
 
-        sheetItems = [sheetItem]
+        if let sheetItem = sheetItem {
+            sheetItems = [sheetItem]
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        backgroundDimmingAnimator?.stopAnimation(true)
     }
 
     // MARK: UIViewController
@@ -68,13 +74,7 @@ public class SheetViewController: UIViewController {
 
         view.addGestureRecognizer(tapGestureRecognizer)
         backgroundView.isUserInteractionEnabled = false
-
-        backgroundDimmingAnimator.addAnimations { [weak self] in
-            self?.backgroundView.clearBackground()
-        }
-
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.clearBackground()
         view.addSubview(backgroundView)
 
         NSLayoutConstraint.activate([
@@ -124,6 +124,38 @@ public class SheetViewController: UIViewController {
         let toSheetItem = sheetItems.last
 
         transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: toSheetItem, forward: false, animated: animated)
+    }
+
+    /// Replaces the sheet items currently in the sheet stack with the specified items.
+    ///
+    /// - Parameters:
+    ///   - sheetItems: The sheet items to display in the stack.
+    ///   - animated: True if the transition should be animated.
+    ///
+    public func setSheetItems(_ sheetItems: [SheetItem], animated: Bool) {
+        let fromSheetItem = sheetItems.last
+        self.sheetItems = sheetItems
+
+        transitionSheet(fromSheetItem: fromSheetItem, toSheetItem: sheetItems.last, forward: true, animated: animated)
+    }
+
+    // MARK: Internal
+
+    /// Resets the `UIViewPropertyAnimator` that dims the background view.
+    ///
+    /// Note: This should be called when the `SheetViewController` is presented. This fixes an issue
+    /// where the background view's opacity would fail to adjust interactively as the sheet's
+    /// content was panned between positions after the `SheetViewController` was dismissed and then
+    /// presented again.
+    ///
+    internal func configureBackgroundAnimator() {
+        let animator = UIViewPropertyAnimator(duration: 1, curve: .linear)
+        animator.scrubsLinearly = false
+        animator.pausesOnCompletion = true
+        animator.addAnimations { [weak backgroundView] in
+            backgroundView?.clearBackground()
+        }
+        self.backgroundDimmingAnimator = animator
     }
 
     // MARK: Private
