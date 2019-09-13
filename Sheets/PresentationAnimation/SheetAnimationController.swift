@@ -49,6 +49,7 @@ extension SheetAnimationController: UIViewControllerAnimatedTransitioning {
                 sheetViewController.backgroundView.applyBackground()
             } else {
                 sheetViewController.sheetView?.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+                sheetViewController.backgroundDimmingAnimator?.stopAnimation(true)
                 sheetViewController.backgroundView.clearBackground()
             }
         }, completion: { _ in

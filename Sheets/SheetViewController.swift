@@ -56,7 +56,6 @@ public class SheetViewController: UIViewController {
 
         if let sheetItem = sheetItem {
             sheetItems = [sheetItem]
-            transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
     }
 
@@ -94,6 +93,10 @@ public class SheetViewController: UIViewController {
                                        selector: #selector(adjustViewForKeyboard(notification:)),
                                        name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
+
+        if let sheetItem = sheetItems.last {
+            transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
+        }
     }
 
     // MARK: Push/Pop Sheets
