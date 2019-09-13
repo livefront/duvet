@@ -9,6 +9,10 @@ public struct SheetConfiguration: Equatable {
     /// The corner radius of the sheet.
     public var cornerRadius: CGFloat
 
+    /// True if the keyboard should be dismissed when the sheet view's scroll view is scrolled or
+    /// false otherwise.
+    public var dismissKeyboardOnScroll: Bool
+
     /// Configuration parameters for displaying a sheet's handle.
     public var handleConfiguration: SheetHandleConfiguration?
 
@@ -27,6 +31,8 @@ public struct SheetConfiguration: Equatable {
     ///
     /// - Parameters:
     ///   - cornerRadius: The corner radius of the sheet.
+    ///   - dismissKeyboardOnScroll: True if the keyboard should be dismissed when the sheet view's
+    ///     scroll view is scrolled or false otherwise.
     ///   - handleConfiguration: Configuration parameters for displaying a sheet handle.
     ///   - initialPosition: The sheets initial position.
     ///   - supportedPositions: The list of positions that the view is allowed to be adjusted to via
@@ -34,11 +40,13 @@ public struct SheetConfiguration: Equatable {
     ///   - topInset: The number of points that the sheet should sit below the top safe area.
     ///
     public init(cornerRadius: CGFloat = 10,
+                dismissKeyboardOnScroll: Bool = true,
                 handleConfiguration: SheetHandleConfiguration? = nil,
                 initialPosition: SheetPosition = .open,
                 supportedPositions: [SheetPosition] = [.open],
                 topInset: CGFloat = 44) {
         self.cornerRadius = cornerRadius
+        self.dismissKeyboardOnScroll = dismissKeyboardOnScroll
         self.handleConfiguration = handleConfiguration
         self.initialPosition = initialPosition
         self.supportedPositions = supportedPositions

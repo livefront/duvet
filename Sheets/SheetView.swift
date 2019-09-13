@@ -19,10 +19,14 @@ public class SheetView: UIView {
     /// The sheet's configuration that affects interactions and how it's displayed.
     let configuration: SheetConfiguration
 
+    /// Constraint that anchors the content view to the bottom of the view (and is adjusted to move
+    /// the content up when the keyboard appears).
+    lazy var contentBottomConstraint = contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+
     /// Constant that defines the height of the content view when in the `opened` position.
     var contentHeightConstant: CGFloat {
         guard !bounds.isEmpty else { return UIScreen.main.bounds.height }
-        return max(0, bounds.height - (safeAreaInsets.top + configuration.topInset))
+        return max(0, bounds.height - (safeAreaInsets.top + configuration.topInset + -contentBottomConstraint.constant))
     }
 
     /// Constraints that defines the height of the content view. This is adusted based on the
@@ -132,6 +136,7 @@ public class SheetView: UIView {
         super.init(frame: .zero)
 
         view.layer.cornerRadius = configuration.cornerRadius
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(view)
@@ -208,6 +213,27 @@ public class SheetView: UIView {
         fittingSizeMaxHeightConstraint.constant = height(at: .open)
     }
 
+    // MARK: Keyboard Adjustment
+
+    /// Adjusts the bottom of the sheet based on the height of the keyboard. If the sheet's position
+    /// is `fittingSize` the sheet view will take care of adjusting the contained view to account
+    /// for the keyboard. Otherwise, the contained view is responsible for keyboard adjustments;
+    /// the sheet will just moved to the open position when the keyboard appears.
+    ///
+    /// - Parameter height: The height of the keyboard extending into the sheet view.
+    ///
+    func updateSheetForKeyboardHeight(_ height: CGFloat) {
+        guard position == .fittingSize else {
+            if !height.isZero && position != .open && configuration.supportedPositions.contains(.open) {
+                move(to: .open)
+            }
+            return
+        }
+
+        contentBottomConstraint.constant = -max(height, 0)
+        contentHeightConstraint.constant = self.height(at: position)
+    }
+
     // MARK: Private
 
     /// Configures the `contentView` and its constraints for the different sheet positions.
@@ -239,17 +265,17 @@ public class SheetView: UIView {
         ]
 
         openedConstraints = [
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentBottomConstraint,
             contentHeightConstraint,
         ]
 
         halfConstraints = [
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentBottomConstraint,
             contentHeightConstraint,
         ]
 
         fittingSizeConstraints = [
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentBottomConstraint,
             fittingSizeHeightConstraint,
             fittingSizeMaxHeightConstraint,
         ]
@@ -320,6 +346,10 @@ extension SheetView {
     @objc private func handle(gestureRecognizer: UIPanGestureRecognizer) {
         switch gestureRecognizer {
         case scrollView?.panGestureRecognizer:
+            if configuration.dismissKeyboardOnScroll {
+                endEditing(true)
+            }
+
             handleScrollViewPan(gestureRecognizer: gestureRecognizer)
         case panGestureRecognizer:
             handleSheetPan(gestureRecognizer: gestureRecognizer)
@@ -370,6 +400,7 @@ extension SheetView {
         if !shouldStartSheetInteraction(translation: translation) {
             stopSheetInteraction()
             panningEnded(translation: translation, velocity: velocity)
+            return
         }
 
         switch gestureRecognizer.state {
@@ -509,7 +540,7 @@ extension SheetView {
     /// - Returns: True if the sheet interaction should start.
     ///
     func shouldStartSheetInteraction(translation: CGPoint) -> Bool {
-        guard !translation.y.isZero else { return true }
+        guard !translation.y.isZero else { return false }
 
         let currentHeight = contentHeightConstraint.constant
 
@@ -550,6 +581,8 @@ extension SheetView {
     ///
     func startSheetInteraction(translation: CGPoint) {
         guard !sheetInteractionInProgress else { return }
+
+        endEditing(true)
 
         translationAtInteractionStart = translation
         initialContentOffset = scrollView?.contentOffset ?? .zero

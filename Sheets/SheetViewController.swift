@@ -84,6 +84,16 @@ public class SheetViewController: UIViewController {
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
 
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(adjustViewForKeyboard(notification:)),
+                                       name: UIResponder.keyboardWillHideNotification,
+                                       object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(adjustViewForKeyboard(notification:)),
+                                       name: UIResponder.keyboardWillChangeFrameNotification,
+                                       object: nil)
+
         if let sheetItem = sheetItems.last {
             transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
@@ -144,9 +154,35 @@ public class SheetViewController: UIViewController {
         self.sheetView = sheetView
     }
 
+    /// Adjusts the sheet based on the keyboard appearing or disappearing.
+    ///
+    /// - Parameter notification: The keyboard notification.
+    ///
+    @objc private func adjustViewForKeyboard(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+            let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            else {
+                return
+        }
+
+        let keyboardFrameInView = view.convert(keyboardFrameEnd, from: nil)
+        let keyboardFrameInSheet = keyboardFrameInView.intersection(sheetView?.frame ?? .zero)
+
+        let animationCurveValue = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
+        let animationOptions = UIView.AnimationOptions(rawValue: animationCurveValue ?? UIView.AnimationOptions().rawValue)
+
+        sheetView?.layoutIfNeeded()
+        sheetView?.updateSheetForKeyboardHeight(keyboardFrameInSheet.height)
+        UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
+            self.sheetView?.layoutIfNeeded()
+        }, completion: nil)
+    }
+
     /// Method to handle the background view being tapped.
     ///
     @objc private func handleTap() {
+        view.endEditing(true)
         delegate?.dismissSheetViewController()
     }
 

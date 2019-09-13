@@ -1,6 +1,10 @@
 import Sheets
 import UIKit
 
+/// A sheet view with a scroll view containing content that is larger than the view. The sheet can
+/// be adjusted between the open, half and closed positions by panning on the view or in the
+/// scroll view. Corresponds to the "Adjustable with Scroll View" example.
+///
 class AdjustableWithScrollViewController: BaseViewController, ProvidesSheetConfiguration {
     static let sheetConfiguration = SheetConfiguration(
         handleConfiguration: SheetHandleConfiguration(),
