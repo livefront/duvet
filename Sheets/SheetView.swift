@@ -13,55 +13,21 @@ public class SheetView: UIView {
     /// background dim/blur as the sheet transations between the top two positions.
     var backgroundAnimator: UIViewPropertyAnimator?
 
-    /// Content view constraints that move the sheet into the closed position when active.
-    var closedConstraints = [NSLayoutConstraint]()
-
     /// The sheet's configuration that affects interactions and how it's displayed.
     let configuration: SheetConfiguration
 
-    /// Constraint that anchors the content view to the bottom of the view (and is adjusted to move
-    /// the content up when the keyboard appears).
-    lazy var contentBottomConstraint = contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
-
-    /// Constant that defines the height of the content view when in the `opened` position.
-    var contentHeightConstant: CGFloat {
-        guard !bounds.isEmpty else { return UIScreen.main.bounds.height }
-        return max(0, bounds.height - (safeAreaInsets.top + configuration.topInset + -contentBottomConstraint.constant))
-    }
-
-    /// Constraints that defines the height of the content view. This is adusted based on the
-    /// current position and while panning the view.
-    lazy var contentHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 0)
-
     /// View containing the content that is displayed in the sheet.
-    lazy var contentView = UIView()
+    let contentView: SheetContentView
 
     /// The sheet view's delegate.
     weak var delegate: SheetViewDelegate?
-
-    /// Content view constraints that move the sheet into the half position when active.
-    var halfConstraints = [NSLayoutConstraint]()
 
     /// The initial content offset when the sheet interaction begins. This keeps the scroll view
     /// from scrolling while the sheet interaction is in progress.
     var initialContentOffset: CGPoint = .zero
 
-    /// Content view constraints that move the sheet into the fitting size position when active.
-    var fittingSizeConstraints = [NSLayoutConstraint]()
-
-    /// Constant that defines the height of the content view when in the `fittingSize` position.
-    lazy var fittingSizeHeightConstraint = contentView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
-
-    /// Constant that defines the maximum height of the content view when in the `fittingSize`
-    /// position. This limits the maximum size of the contentView to the height defined by the
-    /// `open` position to prevent the view from growing too large.
-    lazy var fittingSizeMaxHeightConstraint = contentView.heightAnchor.constraint(lessThanOrEqualToConstant: 0)
-
-    /// Content view constraints that are fixed regardless of the sheet's position.
-    var fixedConstraints = [NSLayoutConstraint]()
-
-    /// The handle for the sheet to indicate that it supports dragging the view up/down.
-    let handleView = SheetHandleView()
+    /// Object that manages the constraints to move the sheet between its supported positions.
+    lazy var layoutManager = SheetLayoutManager(sheetView: self, contentView: contentView, configuration: configuration)
 
     /// The pan gesture recognizer that's responsible for adjusting the sheet height.
     lazy var panGestureRecognizer: UIPanGestureRecognizer = {
@@ -69,12 +35,6 @@ public class SheetView: UIView {
         recognizer.delegate = self
         return recognizer
     }()
-
-    // The sheet's current position.
-    var position: SheetPosition = .closed
-
-    /// Content view constraints that move the sheet into the opened position when active.
-    var openedConstraints = [NSLayoutConstraint]()
 
     /// An optional scroll view that the sheet will track to allow adjusting the sheet height when
     /// the scroll view is at its top and it's still being panned down.
@@ -92,24 +52,12 @@ public class SheetView: UIView {
     /// forwarded to this original delegate.
     weak var scrollViewDelegate: UIScrollViewDelegate?
 
-    /// The second from the top supported position for the sheet.
-    var secondPosition: SheetPosition? {
-        let positions = positionsSortedByDistance(from: height(at: .open))
-        guard positions.indices.contains(1) else { return nil }
-        return positions[1].position
-    }
-
     /// True when the sheet is being interactively moved up/down.
     var sheetInteractionInProgress = false
 
     /// Flag indicating that the scroll view should stop scrolling when dragging ends. This prevents
     /// scrolling the scroll view after panning to a new sheet position.
     var stopScrolling = false
-
-    /// The top-most supported position for the sheet.
-    var topPosition: SheetPosition {
-        return positionsSortedByDistance(from: height(at: .open)).first?.position ?? configuration.initialPosition
-    }
 
     /// The initial translation of the pan gesture when the sheet interaction starts. This is used
     /// to calculate how far up/down the sheet should be adjusted.
@@ -125,38 +73,14 @@ public class SheetView: UIView {
     ///
     init(view: UIView, configuration: SheetConfiguration) {
         self.configuration = configuration
-
+        self.contentView = SheetContentView(view: view, configuration: configuration)
         super.init(frame: .zero)
 
-        view.layer.cornerRadius = configuration.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(view)
-
+        contentView.addGestureRecognizer(panGestureRecognizer)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: contentView.topAnchor),
-            view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            ])
-
-        if let handleConfiguration = configuration.handleConfiguration {
-            handleView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(handleView)
-
-            NSLayoutConstraint.activate([
-                handleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -handleConfiguration.topInset),
-                handleView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-                ])
-        }
-
-        setUpContentView()
-
-        move(to: configuration.initialPosition)
+        layoutManager.move(to: configuration.initialPosition)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -170,8 +94,8 @@ public class SheetView: UIView {
     // MARK: UIView
 
     override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let handleViewPoint = convert(point, to: contentView)
-        if contentView.frame.contains(point) || handleView.frame.contains(handleViewPoint) {
+        let contentViewPoint = contentView.convert(point, from: self)
+        if contentView.point(inside: contentViewPoint, with: event) {
             return true
         }
 
@@ -180,11 +104,8 @@ public class SheetView: UIView {
     }
 
     override public func safeAreaInsetsDidChange() {
-        // Reset the height constraint to account for any heights that may be dependent on safe areas.
-        contentHeightConstraint.constant = height(at: position)
-
-        // Set the max height in `fittingSize` to be that of the `open` position.
-        fittingSizeMaxHeightConstraint.constant = height(at: .open)
+        super.safeAreaInsetsDidChange()
+        layoutManager.safeAreaInsets = safeAreaInsets
     }
 
     // MARK: CALayer
@@ -192,15 +113,9 @@ public class SheetView: UIView {
     override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !isHidden else { return super.hitTest(point, with: event) }
 
-        if contentView.frame.contains(point) {
-            let contentViewPoint = convert(point, to: contentView)
-            return contentView.hitTest(contentViewPoint, with: event)
-        }
-
-        // Extend the handleView's tappable area slightly larger than its small frame.
-        let handleViewPoint = convert(point, to: contentView)
-        if handleView.frame.insetBy(dx: -16, dy: -16).contains(handleViewPoint) {
-            return handleView
+        let contentViewPoint = contentView.convert(point, from: self)
+        if let view = contentView.hitTest(contentViewPoint, with: event) {
+            return view
         }
 
         return super.hitTest(point, with: event)
@@ -224,142 +139,11 @@ public class SheetView: UIView {
         return delegate
     }
 
-    // MARK: Keyboard Adjustment
-
-    /// Adjusts the bottom of the sheet based on the height of the keyboard. If the sheet's position
-    /// is `fittingSize` the sheet view will take care of adjusting the contained view to account
-    /// for the keyboard. Otherwise, the contained view is responsible for keyboard adjustments;
-    /// the sheet will just moved to the open position when the keyboard appears.
-    ///
-    /// - Parameter height: The height of the keyboard extending into the sheet view.
-    ///
-    func updateSheetForKeyboardHeight(_ height: CGFloat) {
-        guard position == .fittingSize else {
-            if !height.isZero && position != .open && configuration.supportedPositions.contains(.open) {
-                move(to: .open)
-            }
-            return
-        }
-
-        contentBottomConstraint.constant = -max(height, 0)
-        contentHeightConstraint.constant = self.height(at: position)
-    }
-
-    // MARK: Private
-
-    /// Configures the `contentView` and its constraints for the different sheet positions.
-    ///
-    private func setUpContentView() {
-        panGestureRecognizer.addTarget(self, action: #selector(handle(gestureRecognizer:)))
-        panGestureRecognizer.delegate = self
-
-        contentView.addGestureRecognizer(panGestureRecognizer)
-        contentView.layer.shadowColor = UIColor.black.cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        contentView.layer.shadowOpacity = 0.1
-        contentView.layer.shadowRadius = 8
-
-        NSLayoutConstraint.deactivate(
-            fixedConstraints +
-            openedConstraints +
-            halfConstraints +
-            fittingSizeConstraints +
-            closedConstraints
-        )
-
-        contentHeightConstraint.constant = contentHeightConstant
-        fittingSizeMaxHeightConstraint.constant = contentHeightConstant
-
-        fixedConstraints = [
-            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ]
-
-        openedConstraints = [
-            contentBottomConstraint,
-            contentHeightConstraint,
-        ]
-
-        halfConstraints = [
-            contentBottomConstraint,
-            contentHeightConstraint,
-        ]
-
-        fittingSizeConstraints = [
-            contentBottomConstraint,
-            fittingSizeHeightConstraint,
-            fittingSizeMaxHeightConstraint,
-        ]
-        fittingSizeHeightConstraint.priority = .init(999)
-
-        let handleInset = configuration.handleConfiguration?.topInset ?? 0
-        closedConstraints = [
-            // Extend the constraint constant `handleInset` points below the bottomAnchor, so that
-            // the handle isn't seen when the sheet is in the closed position. `handleInset` can be
-            // negative if the handle is in the sheet (as opposed to above it), so in that case, the
-            // constraint constant should just be zero
-            contentView.topAnchor.constraint(equalTo: bottomAnchor, constant: max(handleInset, 0)),
-        ]
-    }
-
-    /// Returns the height that the sheet view should have when it's in the specified position.
-    ///
-    /// - Parameter position: The position of the sheet view to return the height for.
-    /// - Returns: The height of the sheet view in the specified position.
-    ///
-    private func height(at position: SheetPosition) -> CGFloat {
-        switch position {
-        case .closed:
-            return 0
-        case .half:
-            return contentHeightConstant / 2
-        case .fittingSize:
-            // `fittingSize` height is driven by `fittingSizeHeightConstraint` not
-            // `contentHeightConstraint` so 0 can be returned.
-            return 0
-        case .open:
-            return contentHeightConstant
-        }
-    }
-
-    /// Moves the sheet to a specific position.
-    ///
-    /// - Parameter position: The position to move the sheet to.
-    ///
-    func move(to position: SheetPosition) {
-        NSLayoutConstraint.deactivate(
-            openedConstraints +
-            halfConstraints +
-            fittingSizeConstraints +
-            closedConstraints
-        )
-
-        NSLayoutConstraint.activate(fixedConstraints)
-
-        switch position {
-        case .closed:
-            NSLayoutConstraint.activate(closedConstraints)
-        case .half:
-            NSLayoutConstraint.activate(halfConstraints)
-        case .fittingSize:
-            NSLayoutConstraint.activate(fittingSizeConstraints)
-        case .open:
-            NSLayoutConstraint.activate(openedConstraints)
-        }
-
-        contentHeightConstraint.constant = height(at: position)
-
-        self.position = position
-    }
-}
-
-// MARK: Sheet Panning Adjustment
-
-extension SheetView {
+    // MARK: Sheet Panning Adjustment
 
     /// Adjusts the sheet view based on the pan gesture recognizer.
     ///
-    @objc private func handle(gestureRecognizer: UIPanGestureRecognizer) {
+    @objc func handle(gestureRecognizer: UIPanGestureRecognizer) {
         switch gestureRecognizer {
         case scrollView?.panGestureRecognizer:
             if configuration.dismissKeyboardOnScroll {
@@ -397,7 +181,7 @@ extension SheetView {
 
         // Determine if the scrollView should handle the gesture or if the user is interacting
         // with the sheet itself.
-        guard shouldScrollViewHandleGesture(location: location) == false else {
+        guard shouldScrollViewHandleGesture(location: location) == false && shouldStartSheetInteraction(translation: translation) else {
             stopSheetInteraction()
             panningEnded(translation: translation, velocity: velocity)
             return
@@ -442,14 +226,11 @@ extension SheetView {
         // Scrolling down (positive y-translation) decreases the content height.
         let yTranslation = translation.y - translationAtInteractionStart.y
 
-        contentHeightConstraint.constant = min(contentHeightConstant, height(at: position) - yTranslation)
+        layoutManager.adjustContentHeight(with: yTranslation)
         layoutIfNeeded()
 
         // Adjust the animator's fraction complete when moving between the top and second from top positions.
-        if let secondPosition = self.secondPosition {
-            let topPositionHeight = height(at: topPosition)
-            let secondPositionHeight = height(at: secondPosition)
-            let fractionComplete = 1 - ((contentHeightConstraint.constant - secondPositionHeight) / (topPositionHeight - secondPositionHeight))
+        if let fractionComplete = layoutManager.backgroundDimmingFractionComplete {
 
             // Always set isReversed to false since fractionComplete is calculated based on the animation going in the forward direction.
             backgroundAnimator?.isReversed = false
@@ -470,9 +251,9 @@ extension SheetView {
     ///   - velocity: The velocity of the pan gesture.
     ///
     func panningEnded(translation: CGPoint, velocity: CGPoint) {
-        let targetPositon = targetPosition(with: translation, velocity: velocity)
+        let targetPositon = layoutManager.targetPosition(with: translation, velocity: velocity)
 
-        let distanceToTarget = distance(from: contentHeightConstraint.constant, to: targetPositon)
+        let distanceToTarget = layoutManager.distance(from: layoutManager.contentHeightConstraint.constant, to: targetPositon)
         let velocityMagnitude = abs(velocity.y)
         let distanceMagnitude = abs(distanceToTarget)
 
@@ -492,7 +273,7 @@ extension SheetView {
             initialSpringVelocity: springVelocity,
             options: [.allowUserInteraction, .beginFromCurrentState],
             animations: {
-                self.move(to: targetPositon)
+                self.layoutManager.move(to: targetPositon)
                 self.layoutIfNeeded()
             },
             completion: { _ in
@@ -508,13 +289,13 @@ extension SheetView {
         )
 
         // Only animate the background when moving between the top and second from top positions.
-        if let secondPosition = self.secondPosition,
+        if let secondPosition = self.layoutManager.secondPosition,
             let animator = backgroundAnimator,
-            secondPosition == targetPositon || topPosition == targetPositon {
+            secondPosition == targetPositon || layoutManager.topPosition == targetPositon {
 
             // The animation is reversed when animating from the top to the second positions
             // (dimmed -> clear). It needs to be reversed when animating back to dimmed.
-            animator.isReversed = targetPositon == topPosition
+            animator.isReversed = targetPositon == layoutManager.topPosition
 
             let completedValue: CGFloat = animator.isReversed ? 1 : 0
             if !animator.fractionComplete.isEqual(to: completedValue) {
@@ -556,21 +337,7 @@ extension SheetView {
     /// - Returns: True if the sheet interaction should start.
     ///
     func shouldStartSheetInteraction(translation: CGPoint) -> Bool {
-        guard !translation.y.isZero else { return false }
-
-        let currentHeight = contentHeightConstraint.constant
-
-        // Determine how far the current position is away from the supported positions.
-        let positionMappings = configuration.supportedPositions.map {
-            return (position: $0, distance: distance(from: currentHeight, to: $0))
-        }
-
-        // Filter out the current position and any positions in the opposite direction of the pan translation.
-        let positionsInTranslationDirection = positionMappings.filter {
-            $0.position != position && ($0.distance > 0) == (translation.y > 0)
-        }
-
-        return positionsInTranslationDirection.count > 0
+        return layoutManager.positionsInDirection(of: translation).count > 0
     }
 
     /// Determines if a sheet interaction should stop. Once an interaction starts, it should only
@@ -584,7 +351,7 @@ extension SheetView {
         // If the sheet is at it's full height and the pan gesture is still moving up (negative y),
         // stop the sheet interaction.
         return translation.y - translationAtInteractionStart.y < 0 &&
-            contentHeightConstraint.constant == contentHeightConstant
+            layoutManager.positionsInDirection(of: translation).count == 0
     }
 
     /// Starts the sheet interaction.
@@ -617,74 +384,6 @@ extension SheetView {
         sheetInteractionInProgress = false
 
         stopScrolling = true
-    }
-}
-
-// MARK: Position Distance Calculations
-
-extension SheetView {
-
-    /// Calculates the distance between the height of the sheet and the height at a specified position.
-    ///
-    /// - Parameters:
-    ///   - height: The current height of the sheet.
-    ///   - position: The position of the sheet to return the distance from the current height.
-    /// - Returns: The difference between the current height and the height of the sheet in the
-    ///     specified position.
-    ///
-    func distance(from height: CGFloat, to position: SheetPosition) -> CGFloat {
-        let positionHeight = self.height(at: position)
-        return height - positionHeight
-    }
-
-    /// Return the list of supported positions for the sheet sorted by the distance from the specified height.
-    ///
-    /// - Parameter height: The height of the sheet to calculate the distance to each of the supported positions.
-    /// - Returns: An array of tuples containing the position and the sheet
-    func positionsSortedByDistance(from height: CGFloat) -> [(position: SheetPosition, distance: CGFloat)] {
-        // Determine how far the current position is away from the supported positions.
-        let positionMappings = configuration.supportedPositions.map {
-            return (position: $0, distance: distance(from: height, to: $0))
-        }
-        return positionMappings.sorted { abs($0.distance) < abs($1.distance) }
-    }
-
-    /// Determines the target position of the sheet based on the translation and velocity of the pan
-    /// gesture.
-    ///
-    /// - Parameters:
-    ///   - translation: The translation of the pan gesture.
-    ///   - velocity: The velocity of the pan gesture.
-    /// - Returns: The target position that the sheet should move to base on the final values of the
-    ///     pan gesture.
-    ///
-    func targetPosition(with translation: CGPoint, velocity: CGPoint) -> SheetPosition {
-        let currentHeight = contentHeightConstraint.constant
-
-        // Determine how far the current position is away from the supported positions.
-        let positionMappings = configuration.supportedPositions.map {
-            return (position: $0, distance: distance(from: currentHeight, to: $0))
-        }
-        let sortedByDistance = positionMappings.sorted { abs($0.distance) < abs($1.distance) }
-
-        // The velocity theshold at which a pan should be allowed to change the position of the sheet.
-        let changePositionVelocityThreshold: CGFloat = 150
-
-        let targetPosition: SheetPosition?
-        if velocity.y > changePositionVelocityThreshold {
-            // Scrolling down; target position should be the next closest position in the
-            // positive-y direction. (We don't want to return to a position that was passed).
-            targetPosition = sortedByDistance.filter { $0.distance >= 0 }.first?.position
-        } else if velocity.y < -changePositionVelocityThreshold {
-            // Scrolling up; target position should be the next closest position in the negative-y
-            // direction. (We don't want to return to a position that was passed).
-            targetPosition = sortedByDistance.filter { $0.distance <= 0 }.first?.position
-        } else {
-            // If y-velocity == 0, target position is the closest position.
-            targetPosition = sortedByDistance.first?.position
-        }
-
-        return targetPosition ?? position
     }
 }
 

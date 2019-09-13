@@ -173,7 +173,7 @@ public class SheetViewController: UIViewController {
         let animationOptions = UIView.AnimationOptions(rawValue: animationCurveValue ?? UIView.AnimationOptions().rawValue)
 
         sheetView?.layoutIfNeeded()
-        sheetView?.updateSheetForKeyboardHeight(keyboardFrameInSheet.height)
+        sheetView?.layoutManager.updateSheetForKeyboardHeight(keyboardFrameInSheet.height)
         UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
             self.sheetView?.layoutIfNeeded()
         }, completion: nil)
