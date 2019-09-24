@@ -1,0 +1,16 @@
+on: pull_request
+name: Run Tests
+jobs:
+  test:
+    name: Test
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Build and Test
+        run: |
+          xcodebuild \
+            -destination 'platform=iOS Simulator,name=iPhone 8,OS=12.4' \
+            -workspace Sheets.xcworkspace \
+            -scheme Sheets \
+            clean test | xcpretty
