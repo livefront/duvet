@@ -210,6 +210,8 @@ public class SheetView: UIView {
             panningEnded(translation: translation, velocity: velocity)
         case .possible:
             break
+        @unknown default:
+            break
         }
     }
 
