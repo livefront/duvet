@@ -33,4 +33,12 @@ extension SheetTransitioningDelegate: UIViewControllerTransitioningDelegate {
         guard dismissed is SheetViewController else { return nil }
         return SheetAnimationController(duration: duration, isPresenting: false)
     }
+
+    public func presentationController(
+        forPresented presented: UIViewController,
+        presenting: UIViewController?,
+        source: UIViewController
+    ) -> UIPresentationController? {
+        return SheetPresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
