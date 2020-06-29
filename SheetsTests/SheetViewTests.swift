@@ -19,6 +19,9 @@ class SheetViewTests: XCTestCase {
 
         subject = SheetView(view: view, configuration: configuration)
         subject.backgroundAnimator = backgroundAnimator
+
+        subject.frame = CGRect(x: 0, y: 0, width: 600, height: 600)
+        subject.layoutIfNeeded()
     }
 
     /// `init(view:configuration)` sets up the view.
@@ -35,22 +38,23 @@ class SheetViewTests: XCTestCase {
         subject.layoutIfNeeded()
 
         XCTAssertFalse(subject.point(inside: CGPoint(x: -5, y: -5), with: nil))
-        XCTAssertTrue(subject.point(inside: CGPoint(x: 5, y: 5), with: nil))
+        XCTAssertTrue(subject.point(inside: CGPoint(x: 0, y: 44), with: nil))
         XCTAssertTrue(subject.point(inside: CGPoint(x: 100, y: 100), with: nil))
     }
 
     /// `safeAreaInsetsDidChange()` notifies the layout manager of the safe area insets.
     func testSafeAreaInsetsDidChange() {
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556)
 
         // NOTE: `safeAreaInsets` can't be set directly, but we can use the fact that the layout
         // manager updates the constraints based on the bounds and safe area of the `SheetView`, so
         // updating the view's frame and calling `safeAreaInsetsDidChange` should update the
         // constraints as well.
-        subject.frame = CGRect(x: 0, y: 0, width: 600, height: 600)
+        subject.frame = CGRect(x: 0, y: 0, width: 1000, height: 1000)
+        subject.layoutIfNeeded()
         subject.safeAreaInsetsDidChange()
 
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 956)
     }
 
     /// `hitTest(_:with)` returns the view that contains the specified point.
@@ -108,26 +112,26 @@ class SheetViewTests: XCTestCase {
     func testPanningChanged() {
         let translation = CGPoint(x: 0, y: 100)
 
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556)
 
         subject.startSheetInteraction(translation: CGPoint.zero)
         subject.panningChanged(translation: translation)
 
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, UIScreen.main.bounds.height - 100)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556 - 100)
     }
 
     /// `panningEnded(translation:velocity:)` moves the sheet to the targeted position based on the translation, velocity and supported positions.
     func testPanningEnded() {
         let translation = CGPoint(x: 0, y: 400)
 
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556)
         XCTAssertEqual(backgroundAnimator.fractionComplete, 0)
 
         subject.startSheetInteraction(translation: CGPoint.zero)
         subject.panningChanged(translation: translation)
         subject.panningEnded(translation: translation, velocity: CGPoint(x: 0, y: 100))
 
-        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, UIScreen.main.bounds.height / 2)
+        XCTAssertEqual(subject.layoutManager.contentHeightConstraint.constant, 556 / 2)
     }
 
     /// `shouldScrollViewHandleGesture(location:)` determines if a pan gesture should be handled by the scroll view or the sheet.
@@ -164,7 +168,7 @@ class SheetViewTests: XCTestCase {
         XCTAssertTrue(subject.shouldStopSheetInteraction(translation: CGPoint(x: 0, y: -5)))
     }
 
-    /// The scroll view's pan gesture recognizer should be recognized simulatneously with the sheet view's pan gesture recognizer.
+    /// The scroll view's pan gesture recognizer should be recognized simultaneously with the sheet view's pan gesture recognizer.
     func testGestureRecognizerShouldRecognizeSimultaneouslyWith() {
         let scrollView = UIScrollView()
         subject.scrollView = scrollView

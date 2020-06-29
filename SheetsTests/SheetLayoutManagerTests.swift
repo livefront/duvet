@@ -15,13 +15,14 @@ class SheetLayoutManagerTests: XCTestCase {
         sheetView = SheetView(view: view, configuration: SheetConfiguration(supportedPositions: [.open, .half, .closed]))
 
         subject = sheetView.layoutManager
+        subject.sheetBounds = CGRect(x: 0, y: 0, width: 600, height: 600)
     }
 
     /// `init()` sets up the constraints and moves the sheet to the initial position.
     func testInit() {
         XCTAssertEqual(subject.position, .open)
         XCTAssertTrue(subject.openedConstraints.allSatisfy { $0.isActive })
-        XCTAssertEqual(subject.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.contentHeightConstraint.constant, 556)   // 556 = sheet height (600) - sheet configuration top inset (44)
     }
 
     /// `topPosition` returns the top position.
@@ -44,13 +45,13 @@ class SheetLayoutManagerTests: XCTestCase {
 
     /// `adjustContentHeight(with:)` adjusts the height of the content based on the pan translation.
     func testAdjustContentHeight() {
-        XCTAssertEqual(subject.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.contentHeightConstraint.constant, 556)   // 556 = sheet height (600) - sheet configuration top inset (44)
 
         subject.adjustContentHeight(with: 100)
-        XCTAssertEqual(subject.contentHeightConstraint.constant, UIScreen.main.bounds.height - 100)
+        XCTAssertEqual(subject.contentHeightConstraint.constant, 556 - 100)
 
         subject.adjustContentHeight(with: -500)
-        XCTAssertEqual(subject.contentHeightConstraint.constant, UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.contentHeightConstraint.constant, 556)
     }
 
     /// `move(to:)` can move the sheet to the half position.
@@ -59,7 +60,7 @@ class SheetLayoutManagerTests: XCTestCase {
 
         XCTAssertEqual(subject.position, .half)
         XCTAssertTrue(subject.halfConstraints.allSatisfy { $0.isActive })
-        XCTAssertEqual(subject.contentHeightConstraint.constant, UIScreen.main.bounds.height / 2)
+        XCTAssertEqual(subject.contentHeightConstraint.constant, 556 / 2)   // 556 = sheet height (600) - sheet configuration top inset (44)
     }
 
     /// `move(to:)` can move the sheet to the fittingSize position.
@@ -134,7 +135,7 @@ class SheetLayoutManagerTests: XCTestCase {
 
     /// `distance(from:to:)` returns the distance between a height and a position.
     func testDistance() {
-        XCTAssertEqual(subject.distance(from: 100, to: .open), 100 - UIScreen.main.bounds.height)
+        XCTAssertEqual(subject.distance(from: 100, to: .open), 100 - 556)
         XCTAssertEqual(subject.distance(from: 100, to: .closed), 100)
     }
 
@@ -152,7 +153,7 @@ class SheetLayoutManagerTests: XCTestCase {
         XCTAssertEqual(subject.targetPosition(with: CGPoint(x: 0, y: 100), velocity: CGPoint(x: 0, y: -200)), .open)
 
         subject.move(to: .open)
-        subject.adjustContentHeight(with: UIScreen.main.bounds.height)
+        subject.adjustContentHeight(with: 556)  // 556 = sheet height (600) - sheet configuration top inset (44)
         XCTAssertEqual(subject.targetPosition(with: CGPoint(x: 0, y: 100), velocity: CGPoint(x: 0, y: 200)), .closed)
     }
 }

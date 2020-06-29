@@ -54,6 +54,8 @@ public class SheetViewController: UIViewController {
         self.transitionManager = transitionManager
         super.init(nibName: nil, bundle: nil)
 
+        modalPresentationCapturesStatusBarAppearance = true
+
         if let sheetItem = sheetItem {
             sheetItems = [sheetItem]
         }

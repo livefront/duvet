@@ -48,4 +48,14 @@ class SheetTransitioningDelegateTests: XCTestCase {
 
         XCTAssertNil(subject.animationController(forDismissed: UIViewController()))
     }
+
+    func testPresentationController() {
+        let presentationController = subject.presentationController(
+            forPresented: UIViewController(),
+            presenting: UIViewController(),
+            source: UIViewController()
+        )
+
+        XCTAssertTrue(presentationController is SheetPresentationController)
+    }
 }

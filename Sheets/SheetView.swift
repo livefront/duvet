@@ -89,6 +89,15 @@ public class SheetView: UIView {
 
     // MARK: UIView
 
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Workaround for in-call status bar issues (pre-iOS 13). When the in-call status bar
+        // appears or disappears, the sheet view is resized beneath the status bar. When this
+        // occurs, the layout manager needs to adjust the sheet accordingly.
+        layoutManager.sheetBounds = bounds
+    }
+
     override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let contentViewPoint = contentView.convert(point, from: self)
         if contentView.point(inside: contentViewPoint, with: event) {
@@ -101,7 +110,7 @@ public class SheetView: UIView {
 
     override public func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
-        layoutManager.safeAreaInsets = safeAreaInsets
+        layoutManager.sheetSafeAreaInsets = safeAreaInsets
     }
 
     // MARK: CALayer
