@@ -13,7 +13,7 @@ A configurable framework for presenting bottom sheets on iOS.
 * [Usage](#usage)
     * [Overview](#overview)
     * [Configuration](#configuration)
-    * [Scroll View Interation](#scroll-view-interation)
+    * [Scroll View Interaction](#scroll-view-interaction)
     * [Pushing/Popping Sheets](#pushingpopping-sheets)
 * [Examples](#examples)
 * [License](#license)
@@ -25,10 +25,10 @@ A configurable framework for presenting bottom sheets on iOS.
     * Half screen sheets.
     * Fitting size sheets are sized to the content displayed, when smaller than a full screen sheet.
 * Content in the sheet can be embedded in a scroll view to support scrolling when the content height exceeds that of the sheet.
-* Supports panning the sheet between different positions.
+* Supports sliding the sheet between different positions and swiping to dismiss.
 * Sheets can be stacked - push additional sheets on and then pop them off.
 * Automatically adjusts the sheet when the keyboard appears/disappears.
-* Configure display properties like the top inset of a full-screen sheet, optional handle to indicate sheet panning, dimmed background view and more.
+* Configure display properties like the top inset of a full-screen sheet, optional handle to indicate sheet sliding, dimmed background view and more.
 
 | Full Sheet | Half Sheet | Fitting Size Sheet | Fitting Size with a Keyboard |
 | --- | --- | --- | --- |
@@ -54,6 +54,7 @@ A configurable framework for presenting bottom sheets on iOS.
     let sheetItem = SheetItem(
         viewController: viewController,
         configuration: SheetConfiguration(),
+        // See Scroll View Interaction below for an example with a scroll view.
         scrollView: nil
     )
     ```
@@ -64,7 +65,8 @@ A configurable framework for presenting bottom sheets on iOS.
     let sheetViewController = SheetViewController(sheetItem: sheetItem)
     sheetViewController.modalPresentationStyle = .custom
 
-    // Note: `sheetTransitioningDelegate` needs to be retained by the presenting view controller.
+    // Note: `sheetTransitioningDelegate` needs to be retained by the presenting
+    // view controller since `sheetViewController` only keeps a weak reference.
     let sheetTransitioningDelegate = SheetTransitioningDelegate()
     sheetViewController.transitioningDelegate = sheetTransitioningDelegate
     ```
@@ -95,12 +97,12 @@ Various parameters can be configured for a sheet via a `SheetConfiguration` when
 | `dismissKeyboardOnScroll` | True if the keyboard should be dismissed when the sheet view's scroll view is scrolled. Defaults to `true`. |
 | `handleConfiguration` | An optional configuration for displaying a handle in or above the sheet to indicate that the sheet can be panned. Defaults to `nil` for no handle. |
 | `initialPosition` | The initial position of the sheet when presented. Defaults to `.open` for a full sized sheet. |
-| `supportedPositions` | The list of positions that the sheet can be adjusted to via panning. Defaults to `[.open]`, which only allows the sheet to be fully sized or closed. |
+| `supportedPositions` | The list of positions that the sheet can be adjusted to via sliding. Defaults to `[.open]`, which only allows the sheet to be fully sized or closed. |
 | `topInset` | The number of points between the top of the sheet and the top safe area. Defaults to 44. |
 
-### Scroll View Interation
+### Scroll View Interaction
 
-If the view controller that you want to show in the sheet has a scroll view that wraps the sheet content, `Sheets` needs to be able to interact with it so that it knows whether you should be scrolling the scroll view or panning the sheet.
+If the view controller that you want to show in the sheet has a scroll view that wraps the sheet content, `Sheets` needs to be able to interact with it so that it knows whether you should be scrolling the scroll view or sliding the sheet.
 
 For this interaction to occur, pass a reference to your view controller's scroll view when creating the `SheetItem`:
 
@@ -112,6 +114,12 @@ let sheetItem = SheetItem(
 )
 ```
 
+`Sheets` will make the following changes to the scroll view:
+
+* `Sheets` will become the `UIScrollView` delegate. If there was an existing `delegate` on the scroll view, `Sheets` will continue forwarding any `UIScrollViewDelegate` methods to the original `delegate`. It's important to set a `delegate`, if necessary, *before* creating the `SheetItem` to continue receiving `UIScrollViewDelegate` methods.
+* Enables `alwaysBounceVertical`. This is required for sliding the sheet or swipe to dismiss.
+* The sheet view will also add itself as a target of the scroll view's `panGestureRecognizer`.
+
 ### Pushing/Popping Sheets
 
 `SheetViewController` supports managing a stack of `SheetItem`s. This allows additional sheets to be pushed on and then popped off of the stack.
@@ -120,7 +128,7 @@ let sheetItem = SheetItem(
 
     ```swift
     let sheetItem = SheetItem(
-        viewController: <view controller for first sheet> 
+        viewController: <view controller for the first sheet> 
         configuration: SheetConfiguration(),
         scrollView: nil
     )
@@ -135,11 +143,11 @@ let sheetItem = SheetItem(
 
     ```swift
     let sheetItem2 = SheetItem(
-        viewController: <view controller for first sheet> 
+        viewController: <view controller for the second sheet> 
         configuration: SheetConfiguration(),
         scrollView: nil
     )
-    sheetViewController.push(sheetItem: sheetItem, animated: true)
+    sheetViewController.push(sheetItem: sheetItem2, animated: true)
     ```
 
 1. Pop that sheet off of the sheet stack.

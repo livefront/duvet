@@ -39,12 +39,16 @@ public struct SheetConfiguration: Equatable {
     ///     panning the view.
     ///   - topInset: The number of points that the sheet should sit below the top safe area.
     ///
-    public init(cornerRadius: CGFloat = 10,
-                dismissKeyboardOnScroll: Bool = true,
-                handleConfiguration: SheetHandleConfiguration? = nil,
-                initialPosition: SheetPosition = .open,
-                supportedPositions: [SheetPosition] = [.open],
-                topInset: CGFloat = 44) {
+    public init(
+        // NOTE: If a default value is changed here, be sure to update the Configuration section
+        // in the README!
+        cornerRadius: CGFloat = 10,
+        dismissKeyboardOnScroll: Bool = true,
+        handleConfiguration: SheetHandleConfiguration? = nil,
+        initialPosition: SheetPosition = .open,
+        supportedPositions: [SheetPosition] = [.open],
+        topInset: CGFloat = 44
+    ) {
         self.cornerRadius = cornerRadius
         self.dismissKeyboardOnScroll = dismissKeyboardOnScroll
         self.handleConfiguration = handleConfiguration
