@@ -18,6 +18,7 @@
 		C94A275F21B1C4420059C398 /* SheetHandleConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A275E21B1C4420059C398 /* SheetHandleConfigurationTests.swift */; };
 		C94A276221B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A276121B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift */; };
 		C94A276421B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94A276321B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift */; };
+		C96B52D324AA2328006998BE /* SheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96B52D224AA2328006998BE /* SheetPresentationController.swift */; };
 		C99A872A21AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872921AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift */; };
 		C99A872C21AEF0F200F8E7D2 /* SheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872B21AEF0F200F8E7D2 /* SheetTransitionManager.swift */; };
 		C99A872E21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872D21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift */; };
@@ -68,6 +69,7 @@
 		C94A275E21B1C4420059C398 /* SheetHandleConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHandleConfigurationTests.swift; sourceTree = "<group>"; };
 		C94A276121B1C4C80059C398 /* BackwardStackSheetTransitionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardStackSheetTransitionManagerTests.swift; sourceTree = "<group>"; };
 		C94A276321B1C6A90059C398 /* ForwardStackSheetTarnsitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardStackSheetTarnsitionManager.swift; sourceTree = "<group>"; };
+		C96B52D224AA2328006998BE /* SheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationController.swift; sourceTree = "<group>"; };
 		C99A872921AEE6F700F8E7D2 /* ForwardStackSheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForwardStackSheetTransitionManager.swift; sourceTree = "<group>"; };
 		C99A872B21AEF0F200F8E7D2 /* SheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetTransitionManager.swift; sourceTree = "<group>"; };
 		C99A872D21AEF11700F8E7D2 /* BackwardStackSheetTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardStackSheetTransitionManager.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				C9496FB7219B76E0003753AC /* SheetAnimationController.swift */,
+				C96B52D224AA2328006998BE /* SheetPresentationController.swift */,
 				C9496FB9219B7736003753AC /* SheetTransitioningDelegate.swift */,
 			);
 			path = PresentationAnimation;
@@ -412,6 +415,7 @@
 				C9ADF9A9219F0FD200F7D4EC /* BlurredSheetBackgroundView.swift in Sources */,
 				C9496FBC219B788A003753AC /* SheetView.swift in Sources */,
 				C9C2837F219F32FB006E2C2B /* SheetItem.swift in Sources */,
+				C96B52D324AA2328006998BE /* SheetPresentationController.swift in Sources */,
 				C9D1F68721B07D2300D8FA0C /* SheetHandleConfiguration.swift in Sources */,
 				C9496FC0219B78C4003753AC /* SheetPosition.swift in Sources */,
 				C9ADF9A7219F0FBF00F7D4EC /* DimmingSheetBackgroundView.swift in Sources */,

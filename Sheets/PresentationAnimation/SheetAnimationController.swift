@@ -37,6 +37,10 @@ extension SheetAnimationController: UIViewControllerAnimatedTransitioning {
             return
         }
 
+        // Setting the sheet's frame here fixes an issue when the sheet is presented with the
+        // pre-iOS 13 in-call status bar being shown where the bottom of the sheet extends 20pt
+        // below the bottom the screen.
+        sheetViewController.view.frame = transitionContext.containerView.bounds
         transitionContext.containerView.addSubview(sheetViewController.view)
 
         if isPresenting {

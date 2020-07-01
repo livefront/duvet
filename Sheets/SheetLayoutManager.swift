@@ -32,8 +32,7 @@ struct SheetLayoutManager {
 
     /// Constant that defines the height of the content view when in the `opened` position.
     var contentHeightConstant: CGFloat {
-        guard let sheetView = sheetView, !sheetView.bounds.isEmpty else { return UIScreen.main.bounds.height }
-        return max(0, sheetView.bounds.height - (safeAreaInsets.top + configuration.topInset + -contentBottomConstraint.constant))
+        return max(0, sheetBounds.height - (sheetSafeAreaInsets.top + configuration.topInset + -contentBottomConstraint.constant))
     }
 
     /// Constraints that defines the height of the content view. This is adusted based on the
@@ -63,14 +62,19 @@ struct SheetLayoutManager {
     // The sheet's current position.
     var position: SheetPosition = .closed
 
-    /// The sheet view's safe area insets.
-    var safeAreaInsets: UIEdgeInsets = .zero {
+    /// The sheet view's bounds.
+    var sheetBounds: CGRect = .zero {
         didSet {
-            // Reset the height constraint to account for any heights that may be dependent on safe areas.
-            contentHeightConstraint.constant = height(at: position)
+            guard sheetBounds != oldValue else { return }
+            updateConstraints()
+        }
+    }
 
-            // Set the max height in `fittingSize` to be that of the `open` position.
-            fittingSizeMaxHeightConstraint.constant = height(at: .open)
+    /// The sheet view's safe area insets.
+    var sheetSafeAreaInsets: UIEdgeInsets = .zero {
+        didSet {
+            guard sheetSafeAreaInsets != oldValue else { return }
+            updateConstraints()
         }
     }
 
@@ -174,6 +178,16 @@ struct SheetLayoutManager {
         }
 
         return positionsInTranslationDirection.map { $0.position }
+    }
+
+    /// Updates the constraints for the sheet based on the sheet view's safe area and bounds. This
+    /// should be called when the sheet view's bounds or safe area insets change.
+    mutating func updateConstraints() {
+        // Reset the height constraint to account for any heights that may be dependent on safe areas.
+        contentHeightConstraint.constant = height(at: position)
+
+        // Set the max height in `fittingSize` to be that of the `open` position.
+        fittingSizeMaxHeightConstraint.constant = height(at: .open)
     }
 
     /// Adjusts the bottom of the sheet based on the height of the keyboard. If the sheet's position
@@ -299,11 +313,16 @@ struct SheetLayoutManager {
         )
 
         contentHeightConstraint.constant = contentHeightConstant
+        contentHeightConstraint.priority = .init(999)
         fittingSizeMaxHeightConstraint.constant = contentHeightConstant
 
         fixedConstraints = [
             contentView.leadingAnchor.constraint(equalTo: sheetView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: sheetView.trailingAnchor),
+            contentView.topAnchor.constraint(
+                greaterThanOrEqualTo: sheetView.safeAreaLayoutGuide.topAnchor,
+                constant: configuration.topInset
+            ),
         ]
 
         openedConstraints = [
