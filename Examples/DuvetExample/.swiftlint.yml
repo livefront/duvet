@@ -4,8 +4,7 @@ disabled_rules:
   - todo
 
 included:
-  - Duvet
-  - DuvetTests
+  - DuvetExample
 
 trailing_comma:
     mandatory_comma: true
