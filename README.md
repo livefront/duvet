@@ -10,6 +10,8 @@ A configurable framework for presenting bottom sheets on iOS.
 * [Requirements](#requirements)
 * [Installation](#installation)
     * [Swift Package Manager](#swift-package-manager)
+    * [CocoaPods](#cocoapods)
+    * [Carthage](#carthage)
 * [Usage](#usage)
     * [Overview](#overview)
     * [Configuration](#configuration)
@@ -37,6 +39,20 @@ A configurable framework for presenting bottom sheets on iOS.
 ## Requirements
 
 * iOS 11+
+
+## Installation
+
+### Swift Package Manager
+
+Add `.package(url: "https://github.com/livefront/Duvet.git", from: "0.0.1")` to your `Package.swift` file dependencies.
+
+### CocoaPods
+
+Add `pod Duvet` to your `Podfile`.
+
+### Carthage
+
+Add `github livefront/Duvet` to your `Cartfile`.
 
 ## Usage
 
