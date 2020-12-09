@@ -1,0 +1,458 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */; };
+		C9496F9A219B2D0C003753AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F99219B2D0C003753AC /* AppDelegate.swift */; };
+		C9496F9C219B2D0C003753AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F9B219B2D0C003753AC /* ViewController.swift */; };
+		C9496FA1219B2D0D003753AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9496FA0219B2D0D003753AC /* Assets.xcassets */; };
+		C9496FA4219B2D0D003753AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9496FA2219B2D0D003753AC /* LaunchScreen.storyboard */; };
+		C9496FB6219B2DCD003753AC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496FB5219B2DCD003753AC /* AppCoordinator.swift */; };
+		C968EEDE25622D59004CEBA5 /* Duvet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C968EEDD25622D59004CEBA5 /* Duvet.framework */; };
+		C968EEDF25622D59004CEBA5 /* Duvet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C968EEDD25622D59004CEBA5 /* Duvet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C982073421B1972E0032CED9 /* KeyboardFullViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C982073321B1972E0032CED9 /* KeyboardFullViewController.swift */; };
+		C99A872721ADB09100F8E7D2 /* PushPopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872621ADB09100F8E7D2 /* PushPopViewController.swift */; };
+		C99A873021AF363200F8E7D2 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99A872F21AF363200F8E7D2 /* KeyboardViewController.swift */; };
+		C9A3BE61219CC2F700ED599B /* SheetHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE60219CC2F700ED599B /* SheetHeaderView.swift */; };
+		C9A3BE64219CC42400ED599B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE63219CC42400ED599B /* BaseViewController.swift */; };
+		C9A3BE66219CC43D00ED599B /* AdjustableContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE65219CC43D00ED599B /* AdjustableContentViewController.swift */; };
+		C9A3BE68219CC45500ED599B /* AdjustableWithScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE67219CC45500ED599B /* AdjustableWithScrollViewController.swift */; };
+		C9A3BE6A219CC46D00ED599B /* HalfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE69219CC46D00ED599B /* HalfViewController.swift */; };
+		C9A3BE6C219CC48200ED599B /* FittingSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE6B219CC48200ED599B /* FittingSizeViewController.swift */; };
+		C9A3BE6E219CC4A900ED599B /* FullSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE6D219CC4A900ED599B /* FullSizeViewController.swift */; };
+		C9A3BE70219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A3BE6F219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C968EEE025622D5A004CEBA5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C968EEDF25622D59004CEBA5 /* Duvet.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackgroundViewController.swift; sourceTree = "<group>"; };
+		C9496F96219B2D0C003753AC /* DuvetExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuvetExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9496F99219B2D0C003753AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9496F9B219B2D0C003753AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C9496FA0219B2D0D003753AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C9496FA3219B2D0D003753AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C9496FA5219B2D0D003753AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9496FB5219B2DCD003753AC /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		C968EEDD25622D59004CEBA5 /* Duvet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Duvet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C982073321B1972E0032CED9 /* KeyboardFullViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardFullViewController.swift; sourceTree = "<group>"; };
+		C99A872621ADB09100F8E7D2 /* PushPopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushPopViewController.swift; sourceTree = "<group>"; };
+		C99A872F21AF363200F8E7D2 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		C9A3BE60219CC2F700ED599B /* SheetHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeaderView.swift; sourceTree = "<group>"; };
+		C9A3BE63219CC42400ED599B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C9A3BE65219CC43D00ED599B /* AdjustableContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableContentViewController.swift; sourceTree = "<group>"; };
+		C9A3BE67219CC45500ED599B /* AdjustableWithScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableWithScrollViewController.swift; sourceTree = "<group>"; };
+		C9A3BE69219CC46D00ED599B /* HalfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfViewController.swift; sourceTree = "<group>"; };
+		C9A3BE6B219CC48200ED599B /* FittingSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FittingSizeViewController.swift; sourceTree = "<group>"; };
+		C9A3BE6D219CC4A900ED599B /* FullSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSizeViewController.swift; sourceTree = "<group>"; };
+		C9A3BE6F219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewHeaderFooterViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9496F93219B2D0C003753AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C968EEDE25622D59004CEBA5 /* Duvet.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9496F8D219B2D0C003753AC = {
+			isa = PBXGroup;
+			children = (
+				C9496FAF219B2D3A003753AC /* Frameworks */,
+				C9496F97219B2D0C003753AC /* Products */,
+				C9496F98219B2D0C003753AC /* DuvetExample */,
+			);
+			sourceTree = "<group>";
+		};
+		C9496F97219B2D0C003753AC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9496F96219B2D0C003753AC /* DuvetExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9496F98219B2D0C003753AC /* DuvetExample */ = {
+			isa = PBXGroup;
+			children = (
+				C9496FB3219B2D85003753AC /* Application */,
+			);
+			path = DuvetExample;
+			sourceTree = "<group>";
+		};
+		C9496FAF219B2D3A003753AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C968EEDD25622D59004CEBA5 /* Duvet.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9496FB3219B2D85003753AC /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C9496FB4219B2D8A003753AC /* Support */,
+				C9A3BE62219CC41700ED599B /* ViewControllers */,
+				C9496FB5219B2DCD003753AC /* AppCoordinator.swift */,
+				C9496F99219B2D0C003753AC /* AppDelegate.swift */,
+				C9A3BE60219CC2F700ED599B /* SheetHeaderView.swift */,
+				C9496F9B219B2D0C003753AC /* ViewController.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C9496FB4219B2D8A003753AC /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				C9496FA0219B2D0D003753AC /* Assets.xcassets */,
+				C9496FA2219B2D0D003753AC /* LaunchScreen.storyboard */,
+				C9496FA5219B2D0D003753AC /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		C9A3BE62219CC41700ED599B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C9A3BE65219CC43D00ED599B /* AdjustableContentViewController.swift */,
+				C9A3BE67219CC45500ED599B /* AdjustableWithScrollViewController.swift */,
+				C9A3BE63219CC42400ED599B /* BaseViewController.swift */,
+				C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */,
+				C9A3BE69219CC46D00ED599B /* HalfViewController.swift */,
+				C9A3BE6B219CC48200ED599B /* FittingSizeViewController.swift */,
+				C9A3BE6D219CC4A900ED599B /* FullSizeViewController.swift */,
+				C982073321B1972E0032CED9 /* KeyboardFullViewController.swift */,
+				C99A872F21AF363200F8E7D2 /* KeyboardViewController.swift */,
+				C99A872621ADB09100F8E7D2 /* PushPopViewController.swift */,
+				C9A3BE6F219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9496F95219B2D0C003753AC /* DuvetExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9496FA8219B2D0D003753AC /* Build configuration list for PBXNativeTarget "DuvetExample" */;
+			buildPhases = (
+				C9496F92219B2D0C003753AC /* Sources */,
+				C9496F93219B2D0C003753AC /* Frameworks */,
+				C9496F94219B2D0C003753AC /* Resources */,
+				C9D1F68921B0836600D8FA0C /* SwiftLint */,
+				C968EEE025622D5A004CEBA5 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DuvetExample;
+			productName = DuvetExample;
+			productReference = C9496F96219B2D0C003753AC /* DuvetExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9496F8E219B2D0C003753AC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1220;
+				ORGANIZATIONNAME = Livefront;
+				TargetAttributes = {
+					C9496F95219B2D0C003753AC = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
+					};
+				};
+			};
+			buildConfigurationList = C9496F91219B2D0C003753AC /* Build configuration list for PBXProject "DuvetExample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C9496F8D219B2D0C003753AC;
+			productRefGroup = C9496F97219B2D0C003753AC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9496F95219B2D0C003753AC /* DuvetExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9496F94219B2D0C003753AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9496FA4219B2D0D003753AC /* LaunchScreen.storyboard in Resources */,
+				C9496FA1219B2D0D003753AC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9D1F68921B0836600D8FA0C /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../../Vendor/SwiftLint/swiftlint\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9496F92219B2D0C003753AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A3BE64219CC42400ED599B /* BaseViewController.swift in Sources */,
+				C9496FB6219B2DCD003753AC /* AppCoordinator.swift in Sources */,
+				C9A3BE6E219CC4A900ED599B /* FullSizeViewController.swift in Sources */,
+				C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */,
+				C9A3BE61219CC2F700ED599B /* SheetHeaderView.swift in Sources */,
+				C982073421B1972E0032CED9 /* KeyboardFullViewController.swift in Sources */,
+				C99A872721ADB09100F8E7D2 /* PushPopViewController.swift in Sources */,
+				C9A3BE66219CC43D00ED599B /* AdjustableContentViewController.swift in Sources */,
+				C9496F9C219B2D0C003753AC /* ViewController.swift in Sources */,
+				C9A3BE6A219CC46D00ED599B /* HalfViewController.swift in Sources */,
+				C9496F9A219B2D0C003753AC /* AppDelegate.swift in Sources */,
+				C9A3BE6C219CC48200ED599B /* FittingSizeViewController.swift in Sources */,
+				C99A873021AF363200F8E7D2 /* KeyboardViewController.swift in Sources */,
+				C9A3BE68219CC45500ED599B /* AdjustableWithScrollViewController.swift in Sources */,
+				C9A3BE70219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C9496FA2219B2D0D003753AC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9496FA3219B2D0D003753AC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C9496FA6219B2D0D003753AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C9496FA7219B2D0D003753AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C9496FA9219B2D0D003753AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				INFOPLIST_FILE = DuvetExample/Application/Support/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.DuvetExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C9496FAA219B2D0D003753AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q6SZ37AHX7;
+				INFOPLIST_FILE = DuvetExample/Application/Support/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.livefront.DuvetExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9496F91219B2D0C003753AC /* Build configuration list for PBXProject "DuvetExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9496FA6219B2D0D003753AC /* Debug */,
+				C9496FA7219B2D0D003753AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9496FA8219B2D0D003753AC /* Build configuration list for PBXNativeTarget "DuvetExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9496FA9219B2D0D003753AC /* Debug */,
+				C9496FAA219B2D0D003753AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9496F8E219B2D0C003753AC /* Project object */;
+}

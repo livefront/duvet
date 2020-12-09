@@ -1,8 +1,8 @@
-# Sheets
+# Duvet
 
 A configurable framework for presenting bottom sheets on iOS.
 
-![Sheets](Docs/Images/sheets.gif)
+![Duvet](Docs/Images/sheets.gif)
 
 ## Contents
 
@@ -42,10 +42,10 @@ A configurable framework for presenting bottom sheets on iOS.
 
 ### Overview
 
-1. Import `Sheets` into the file that you will present a sheet from.
+1. Import `Duvet` into the file that you will present a sheet from.
 
     ```swift
-    import Sheets
+    import Duvet 
     ```
 
 1. Create a `SheetItem` with the view controller that should will be shown in the sheet.
@@ -102,7 +102,7 @@ Various parameters can be configured for a sheet via a `SheetConfiguration` when
 
 ### Scroll View Interaction
 
-If the view controller that you want to show in the sheet has a scroll view that wraps the sheet content, `Sheets` needs to be able to interact with it so that it knows whether you should be scrolling the scroll view or sliding the sheet.
+If the view controller that you want to show in the sheet has a scroll view that wraps the sheet content, `Duvet` needs to be able to interact with it so that it knows whether you should be scrolling the scroll view or sliding the sheet.
 
 For this interaction to occur, pass a reference to your view controller's scroll view when creating the `SheetItem`:
 
@@ -114,9 +114,9 @@ let sheetItem = SheetItem(
 )
 ```
 
-`Sheets` will make the following changes to the scroll view:
+`Duvet` will make the following changes to the scroll view:
 
-* `Sheets` will become the `UIScrollView` delegate. If there was an existing `delegate` on the scroll view, `Sheets` will continue forwarding any `UIScrollViewDelegate` methods to the original `delegate`. It's important to set a `delegate`, if necessary, *before* creating the `SheetItem` to continue receiving `UIScrollViewDelegate` methods.
+* `Duvet` will become the `UIScrollView` delegate. If there was an existing `delegate` on the scroll view, `Duvet` will continue forwarding any `UIScrollViewDelegate` methods to the original `delegate`. It's important to set a `delegate`, if necessary, *before* creating the `SheetItem` to continue receiving `UIScrollViewDelegate` methods.
 * Enables `alwaysBounceVertical`. This is required for sliding the sheet or swipe to dismiss.
 * The sheet view will also add itself as a target of the scroll view's `panGestureRecognizer`.
 
@@ -158,9 +158,9 @@ let sheetItem = SheetItem(
 
 ## Examples
 
-There is an example application showing how to present and configure `Sheets` for many common use cases in the `Example` directory.
+There is an example application showing how to present and configure `Duvet` for many common use cases in the `Example` directory.
 
-![Sheets Example Application](Docs/Images/sheets_example.png)
+![Duvet Example Application](Docs/Images/sheets_example.png)
 
 ## License
 
