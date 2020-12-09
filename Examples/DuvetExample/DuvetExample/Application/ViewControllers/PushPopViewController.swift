@@ -39,7 +39,7 @@ class PushPopViewController: BaseViewController, ProvidesSheetConfiguration {
         view.addSubview(header)
         view.addSubview(nextButton)
 
-        let nextButtonBottomConstraint = nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let nextButtonBottomConstraint = nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         nextButtonBottomConstraint.priority = .init(999)
 
         NSLayoutConstraint.activate([
