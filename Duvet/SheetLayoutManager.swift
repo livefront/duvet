@@ -56,6 +56,9 @@ struct SheetLayoutManager {
     /// Content view constraints that are fixed regardless of the sheet's position.
     var fixedConstraints = [NSLayoutConstraint]()
 
+    /// The view to display below the keyboard.
+    lazy var keyboardBackgroundView = UIView()
+
     /// Content view constraints that move the sheet into the opened position when active.
     var openedConstraints = [NSLayoutConstraint]()
 
@@ -111,6 +114,10 @@ struct SheetLayoutManager {
         contentHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 0)
         fittingSizeHeightConstraint = contentView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
         fittingSizeMaxHeightConstraint = contentView.heightAnchor.constraint(lessThanOrEqualToConstant: 0)
+
+        if let color = configuration.keyboardBackgroundColor {
+            keyboardBackgroundView.backgroundColor = color
+        }
 
         setUpConstraints(sheetView: sheetView, contentView: contentView)
     }
@@ -341,6 +348,17 @@ struct SheetLayoutManager {
             fittingSizeMaxHeightConstraint,
         ]
         fittingSizeHeightConstraint.priority = .init(999)
+
+        if configuration.keyboardBackgroundColor != nil {
+            keyboardBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+            sheetView.addSubview(keyboardBackgroundView)
+            NSLayoutConstraint.activate([
+                keyboardBackgroundView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
+                keyboardBackgroundView.leadingAnchor.constraint(equalTo: sheetView.leadingAnchor),
+                keyboardBackgroundView.trailingAnchor.constraint(equalTo: sheetView.trailingAnchor),
+                keyboardBackgroundView.bottomAnchor.constraint(equalTo: sheetView.bottomAnchor),
+            ])
+        }
 
         let handleInset = configuration.handleConfiguration?.topInset ?? 0
         closedConstraints = [

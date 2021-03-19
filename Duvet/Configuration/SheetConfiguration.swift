@@ -19,6 +19,10 @@ public struct SheetConfiguration: Equatable {
     /// The sheets initial position.
     public var initialPosition: SheetPosition
 
+    /// The color of the optional keyboard shim. If no value is provided the keyboard shim is not
+    /// displayed.
+    public var keyboardBackgroundColor: UIColor?
+
     /// The list of positions that the view is allowed to adjusted to via panning the view.
     public var supportedPositions: [SheetPosition]
 
@@ -35,6 +39,9 @@ public struct SheetConfiguration: Equatable {
     ///     scroll view is scrolled or false otherwise.
     ///   - handleConfiguration: Configuration parameters for displaying a sheet handle.
     ///   - initialPosition: The sheets initial position.
+    ///   - keyboardBackgroundColor: An optional color for a shim view that appears behind the
+    ///     keyboard when it is presented. This prevents interactive dismissing of the keyboard
+    ///     showing the background view while the keyboard is being dragged down.
     ///   - supportedPositions: The list of positions that the view is allowed to be adjusted to via
     ///     panning the view.
     ///   - topInset: The number of points that the sheet should sit below the top safe area.
@@ -46,6 +53,7 @@ public struct SheetConfiguration: Equatable {
         dismissKeyboardOnScroll: Bool = true,
         handleConfiguration: SheetHandleConfiguration? = nil,
         initialPosition: SheetPosition = .open,
+        keyboardBackgroundColor: UIColor? = nil,
         supportedPositions: [SheetPosition] = [.open],
         topInset: CGFloat = 44
     ) {
@@ -53,6 +61,7 @@ public struct SheetConfiguration: Equatable {
         self.dismissKeyboardOnScroll = dismissKeyboardOnScroll
         self.handleConfiguration = handleConfiguration
         self.initialPosition = initialPosition
+        self.keyboardBackgroundColor = keyboardBackgroundColor
         self.supportedPositions = supportedPositions
         self.topInset = topInset
     }
