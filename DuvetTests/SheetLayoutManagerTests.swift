@@ -156,4 +156,35 @@ class SheetLayoutManagerTests: XCTestCase {
         subject.adjustContentHeight(with: 556)  // 556 = sheet height (600) - sheet configuration top inset (44)
         XCTAssertEqual(subject.targetPosition(with: CGPoint(x: 0, y: 100), velocity: CGPoint(x: 0, y: 200)), .closed)
     }
+
+    /// When using the default keyboard background view value, make sure the `keyboardBackgroundView`
+    /// is not added to the view hierarchy and it doesn't have a background color.
+    func testDefaultKeyboardBackgroundViewSetup() {
+        XCTAssertFalse(sheetView.subviews.contains(subject.keyboardBackgroundView))
+        XCTAssertNil(subject.keyboardBackgroundView.backgroundColor)
+    }
+
+    /// When using a custom keyboard background color, make sure the `keyboardBackgroundView` is
+    /// added to the view hierarchy and it has the correct background color.
+    func testCustomKeyboardBackgroundViewSetup() {
+        sheetView = SheetView(view: view, configuration: SheetConfiguration(keyboardBackgroundColor: .blue))
+        subject = sheetView.layoutManager
+
+        XCTAssertTrue(sheetView.subviews.contains(subject.keyboardBackgroundView))
+        XCTAssertEqual(subject.keyboardBackgroundView.backgroundColor, .blue)
+    }
+
+    /// `updateSheetForKeyboardHeight(_:)` slides the sheet up when in the fittingSize position and
+    /// the keyboard background view is resized accordingly.
+    func testUpdateSheetForKeyboardHeightFittingSizeWithKeyboardBackgroundColor() {
+        sheetView = SheetView(view: view, configuration: SheetConfiguration(initialPosition: .fittingSize, keyboardBackgroundColor: .blue, supportedPositions: [.fittingSize]))
+        subject = sheetView.layoutManager
+        subject.sheetBounds = CGRect(x: 0, y: 0, width: 600, height: 600)
+
+        subject.move(to: .fittingSize)
+        subject.updateSheetForKeyboardHeight(100)
+        sheetView.layoutIfNeeded()
+
+        XCTAssertEqual(subject.keyboardBackgroundView.frame.height, 100)
+    }
 }

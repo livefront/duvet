@@ -113,6 +113,7 @@ Various parameters can be configured for a sheet via a `SheetConfiguration` when
 | `dismissKeyboardOnScroll` | True if the keyboard should be dismissed when the sheet view's scroll view is scrolled. Defaults to `true`. |
 | `handleConfiguration` | An optional configuration for displaying a handle in or above the sheet to indicate that the sheet can be panned. Defaults to `nil` for no handle. |
 | `initialPosition` | The initial position of the sheet when presented. Defaults to `.open` for a full sized sheet. |
+| `keyboardBackgroundColor` | An optional color for a view that is presented behind the keyboard when this sheet view is adjusted for keyboard presentation. If no color is provided no view will appear behind the keyboard. Defaults to `nil`. |
 | `supportedPositions` | The list of positions that the sheet can be adjusted to via sliding. Defaults to `[.open]`, which only allows the sheet to be fully sized or closed. |
 | `topInset` | The number of points between the top of the sheet and the top safe area. Defaults to 44. |
 
