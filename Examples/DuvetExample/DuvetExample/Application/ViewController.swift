@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         case fullSize = "Full Size"
         case keyboard = "Keyboard - Fitting Size"               // Sheet handles adjusting contained view with keyboard.
         case keyboardFull = "Keyboard - Expand with Keyboard"   // Contained view responsible for keyboard adjustments.
+        case keyboardInteractiveDismiss = "Keyboard - Interactive Dismiss"
         case pushPop = "Push/Pop"
         case scrollViewHeaderFooter = "Scroll View with Header and Footer"
 
@@ -52,6 +53,8 @@ class ViewController: UIViewController {
                 return KeyboardViewController.self
             case .keyboardFull:
                 return KeyboardFullViewController.self
+            case .keyboardInteractiveDismiss:
+                return KeyboardInteractiveDismissViewController.self
             case .pushPop:
                 return PushPopViewController.self
             case .scrollViewHeaderFooter:
