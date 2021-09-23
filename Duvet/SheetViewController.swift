@@ -176,11 +176,14 @@ public class SheetViewController: UIViewController {
         sheetView.willMove(toSuperview: view)
         view.addSubview(sheetView)
 
+        let bottomAnchor = sheetView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        bottomAnchor.priority = .init(999)
+
         NSLayoutConstraint.activate([
             sheetView.topAnchor.constraint(equalTo: view.topAnchor),
             sheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            sheetView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomAnchor,
             ])
 
         self.sheetView = sheetView
