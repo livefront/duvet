@@ -44,7 +44,7 @@ A configurable framework for presenting bottom sheets on iOS.
 
 ### Swift Package Manager
 
-Add `.package(url: "https://github.com/livefront/Duvet.git", from: "0.0.1")` to your `Package.swift` file dependencies.
+Add `.package(url: "https://github.com/livefront/Duvet.git", from: "0.0.2")` to your `Package.swift` file dependencies.
 
 ### CocoaPods
 
