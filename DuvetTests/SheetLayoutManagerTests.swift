@@ -22,7 +22,14 @@ class SheetLayoutManagerTests: XCTestCase {
     func testInit() {
         XCTAssertEqual(subject.position, .open)
         XCTAssertTrue(subject.openedConstraints.allSatisfy { $0.isActive })
+    }
+
+    /// `contentHeightConstant` returns the expected height constant.
+    func testContentHeightConstant() {
         XCTAssertEqual(subject.contentHeightConstraint.constant, 556)   // 556 = sheet height (600) - sheet configuration top inset (44)
+
+        subject.sheetBounds = .zero
+        XCTAssertEqual(subject.contentHeightConstant, UIScreen.main.bounds.height)
     }
 
     /// `topPosition` returns the top position.
