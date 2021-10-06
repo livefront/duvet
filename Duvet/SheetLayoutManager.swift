@@ -32,6 +32,7 @@ struct SheetLayoutManager {
 
     /// Constant that defines the height of the content view when in the `opened` position.
     var contentHeightConstant: CGFloat {
+        guard !sheetBounds.isEmpty else { return UIScreen.main.bounds.height }
         return max(0, sheetBounds.height - (sheetSafeAreaInsets.top + configuration.topInset))
     }
 
