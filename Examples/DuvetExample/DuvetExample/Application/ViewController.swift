@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     // MARK: Types
 
     enum Sheets: String, CaseIterable {
-        case adjustable = "Adustable"
-        case adjustableWithScroll = "Adustable with Scroll View"
+        case adjustable = "Adjustable"
+        case adjustableWithScroll = "Adjustable with Scroll View"
         case blurredBackground = "Blurred Background"
         case half = "Half Size"
         case fittingSize = "Fitting Size"
