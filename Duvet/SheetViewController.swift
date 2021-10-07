@@ -193,7 +193,8 @@ public class SheetViewController: UIViewController {
     @objc private func adjustViewForKeyboard(notification: Notification) {
         guard let userInfo = notification.userInfo,
             let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
-            let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            presentedViewController == nil // don't adjust for the keyboard while presenting another view controller
             else {
                 return
         }
