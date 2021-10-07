@@ -7,9 +7,6 @@ public class SheetViewController: UIViewController {
 
     // MARK: Properties
 
-    /// The currently presented sheet item.
-    private var currentSheetItem: SheetItem?
-
     /// The delegate of the view controller.
     public weak var delegate: SheetViewControllerDelegate?
 
@@ -97,7 +94,7 @@ public class SheetViewController: UIViewController {
                                        name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
 
-        if let sheetItem = sheetItems.last, currentSheetItem == nil {
+        if let sheetItem = sheetItems.last, sheetItem.viewController.parent != self {
             transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
     }
@@ -230,8 +227,6 @@ public class SheetViewController: UIViewController {
     ///   - animated: True if the transition should be animated.
     ///
     private func transitionSheet(fromSheetItem: SheetItem?, toSheetItem: SheetItem?, forward: Bool, animated: Bool) {
-        self.currentSheetItem = toSheetItem
-
         guard let toSheetItem = toSheetItem else {
             delegate?.dismissSheetViewController()
             return
