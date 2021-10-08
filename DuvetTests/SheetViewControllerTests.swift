@@ -48,6 +48,15 @@ class SheetViewControllerTests: XCTestCase {
         XCTAssertTrue(sheetView.contentView.contains(sheetItem.viewController.view))
     }
 
+    /// `viewDidLoad()` doesn't add the first sheet if it has already been pushed.
+    func testViewDidLoadDoesntAddFirstSheetIfAlreadyPushed() {
+        subject.push(sheetItem: sheetItem, animated: false)
+        XCTAssertEqual(subject.view.subviews.count, 2)
+
+        subject.viewDidLoad()
+        XCTAssertEqual(subject.view.subviews.count, 2)
+    }
+
     /// When the background view is tapped, it requests that the delegate dismiss the view.
     func testBackgroundTapped() {
         subject.viewDidLoad()

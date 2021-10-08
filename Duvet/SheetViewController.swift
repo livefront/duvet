@@ -94,7 +94,9 @@ public class SheetViewController: UIViewController {
                                        name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
 
-        if let sheetItem = sheetItems.last {
+        // Setup the first sheet if it hasn't already been added as a child. Since the view is loaded
+        // while adding the first sheet's subview, `sheetView` will still be nil so instead check the parent.
+        if let sheetItem = sheetItems.last, sheetItem.viewController.parent != self {
             transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
     }
