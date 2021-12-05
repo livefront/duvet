@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66A269B12605089D00A25D60 /* KeyboardInteractiveDismissViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A269B02605089D00A25D60 /* KeyboardInteractiveDismissViewController.swift */; };
 		C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */; };
 		C9496F9A219B2D0C003753AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F99219B2D0C003753AC /* AppDelegate.swift */; };
 		C9496F9C219B2D0C003753AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F9B219B2D0C003753AC /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		66A269B02605089D00A25D60 /* KeyboardInteractiveDismissViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInteractiveDismissViewController.swift; sourceTree = "<group>"; };
 		C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackgroundViewController.swift; sourceTree = "<group>"; };
 		C9496F96219B2D0C003753AC /* DuvetExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuvetExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9496F99219B2D0C003753AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				C9A3BE6D219CC4A900ED599B /* FullSizeViewController.swift */,
 				C982073321B1972E0032CED9 /* KeyboardFullViewController.swift */,
 				C99A872F21AF363200F8E7D2 /* KeyboardViewController.swift */,
+				66A269B02605089D00A25D60 /* KeyboardInteractiveDismissViewController.swift */,
 				C99A872621ADB09100F8E7D2 /* PushPopViewController.swift */,
 				C9A3BE6F219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift */,
 			);
@@ -248,6 +251,7 @@
 				C9A3BE64219CC42400ED599B /* BaseViewController.swift in Sources */,
 				C9496FB6219B2DCD003753AC /* AppCoordinator.swift in Sources */,
 				C9A3BE6E219CC4A900ED599B /* FullSizeViewController.swift in Sources */,
+				66A269B12605089D00A25D60 /* KeyboardInteractiveDismissViewController.swift in Sources */,
 				C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */,
 				C9A3BE61219CC2F700ED599B /* SheetHeaderView.swift in Sources */,
 				C982073421B1972E0032CED9 /* KeyboardFullViewController.swift in Sources */,
