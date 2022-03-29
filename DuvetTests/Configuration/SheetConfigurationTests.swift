@@ -18,5 +18,6 @@ class SheetConfigurationTests: XCTestCase {
         XCTAssertEqual(subject.initialPosition, .open)
         XCTAssertEqual(subject.supportedPositions, [.open])
         XCTAssertEqual(subject.topInset, 44)
+        XCTAssertTrue(subject.usesDefaultKeyboardAvoidance)
     }
 }
