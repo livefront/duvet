@@ -34,7 +34,7 @@ A configurable framework for presenting bottom sheets on iOS.
 
 | Full Sheet | Half Sheet | Fitting Size Sheet | Fitting Size with a Keyboard |
 | --- | --- | --- | --- |
-| ![Full Sheet](Docs/Images/full_sheet.png) | ![Half Sheet](Docs/Images/half_sheet.png) | ![Fitting Size Sheet](Docs/Images/fitting_size_sheet.png) | ![Fitting Size with Keyboard](Docs/Images/fitting_size_sheet_with_keyboard.png) | 
+| ![Full Sheet](Docs/Images/full_sheet.png) | ![Half Sheet](Docs/Images/half_sheet.png) | ![Fitting Size Sheet](Docs/Images/fitting_size_sheet.png) | ![Fitting Size with Keyboard](Docs/Images/fitting_size_sheet_with_keyboard.png) |
 
 ## Requirements
 
@@ -61,7 +61,7 @@ Add `github livefront/Duvet` to your `Cartfile`.
 1. Import `Duvet` into the file that you will present a sheet from.
 
     ```swift
-    import Duvet 
+    import Duvet
     ```
 
 1. Create a `SheetItem` with the view controller that should will be shown in the sheet.
@@ -115,6 +115,7 @@ Various parameters can be configured for a sheet via a `SheetConfiguration` when
 | `initialPosition` | The initial position of the sheet when presented. Defaults to `.open` for a full sized sheet. |
 | `supportedPositions` | The list of positions that the sheet can be adjusted to via sliding. Defaults to `[.open]`, which only allows the sheet to be fully sized or closed. |
 | `topInset` | The number of points between the top of the sheet and the top safe area. Defaults to 44. |
+| `usesDefaultKeyboardAvoidance` | A flag that determines if Duvet should use its own custom keyboard avoidance mechanism for this sheet or not. This is defaulted to `true`, but if your app handles keyboard avoidance in it's own way, it is recommended that this flag is set to `false` to reduce animation conflicts. |
 
 ### Scroll View Interaction
 
@@ -126,7 +127,7 @@ For this interaction to occur, pass a reference to your view controller's scroll
 let sheetItem = SheetItem(
     viewController: viewController,
     configuration: SheetConfiguration(),
-    scrollView: viewController.scrollView 
+    scrollView: viewController.scrollView
 )
 ```
 
@@ -144,7 +145,7 @@ let sheetItem = SheetItem(
 
     ```swift
     let sheetItem = SheetItem(
-        viewController: <view controller for the first sheet> 
+        viewController: <view controller for the first sheet>
         configuration: SheetConfiguration(),
         scrollView: nil
     )
@@ -159,7 +160,7 @@ let sheetItem = SheetItem(
 
     ```swift
     let sheetItem2 = SheetItem(
-        viewController: <view controller for the second sheet> 
+        viewController: <view controller for the second sheet>
         configuration: SheetConfiguration(),
         scrollView: nil
     )
