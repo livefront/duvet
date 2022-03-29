@@ -25,6 +25,11 @@ public struct SheetConfiguration: Equatable {
     /// The number of points that the sheet should sit below the top safe area.
     public var topInset: CGFloat
 
+    /// A flag indicating if this sheet should use Duvet's default keyboard avoidance or not. If `true`,
+    /// Duvet will handle keyboard avoidance, otherwise it will do nothing when the keyboard is presented
+    /// or dismissed.
+    public var usesDefaultKeyboardAvoidance: Bool
+
     // MARK: Initialization
 
     /// Initialize a `SheetConfiguration`.
@@ -38,6 +43,8 @@ public struct SheetConfiguration: Equatable {
     ///   - supportedPositions: The list of positions that the view is allowed to be adjusted to via
     ///     panning the view.
     ///   - topInset: The number of points that the sheet should sit below the top safe area.
+    ///   - usesDefaultKeyboardAvoidance: A flag indicating if this sheet should use Duvet's default keyboard
+    ///      avoidance or not.
     ///
     public init(
         // NOTE: If a default value is changed here, be sure to update the Configuration section
@@ -47,7 +54,8 @@ public struct SheetConfiguration: Equatable {
         handleConfiguration: SheetHandleConfiguration? = nil,
         initialPosition: SheetPosition = .open,
         supportedPositions: [SheetPosition] = [.open],
-        topInset: CGFloat = 44
+        topInset: CGFloat = 44,
+        usesDefaultKeyboardAvoidance: Bool = true
     ) {
         self.cornerRadius = cornerRadius
         self.dismissKeyboardOnScroll = dismissKeyboardOnScroll
@@ -55,5 +63,6 @@ public struct SheetConfiguration: Equatable {
         self.initialPosition = initialPosition
         self.supportedPositions = supportedPositions
         self.topInset = topInset
+        self.usesDefaultKeyboardAvoidance = usesDefaultKeyboardAvoidance
     }
 }
