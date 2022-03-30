@@ -193,24 +193,26 @@ public class SheetViewController: UIViewController {
     /// - Parameter notification: The keyboard notification.
     ///
     @objc private func adjustViewForKeyboard(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
-            let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            presentedViewController == nil // don't adjust for the keyboard while presenting another view controller
+        guard let sheetView = sheetView,
+              sheetView.configuration.isKeyboardAvoidanceEnabled,
+                let userInfo = notification.userInfo,
+                let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+                let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+                presentedViewController == nil // don't adjust for the keyboard while presenting another view controller
             else {
                 return
         }
 
         let keyboardFrameInView = view.convert(keyboardFrameEnd, from: nil)
-        let keyboardFrameInSheet = keyboardFrameInView.intersection(sheetView?.frame ?? .zero)
+        let keyboardFrameInSheet = keyboardFrameInView.intersection(sheetView.frame)
 
         let animationCurveValue = (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
         let animationOptions = UIView.AnimationOptions(rawValue: animationCurveValue ?? UIView.AnimationOptions().rawValue)
 
-        sheetView?.layoutIfNeeded()
-        sheetView?.layoutManager.updateSheetForKeyboardHeight(keyboardFrameInSheet.height)
-        UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: {
-            self.sheetView?.layoutIfNeeded()
+        sheetView.layoutIfNeeded()
+        sheetView.layoutManager.updateSheetForKeyboardHeight(keyboardFrameInSheet.height)
+        UIView.animate(withDuration: duration, delay: 0, options: animationOptions, animations: { [weak self] in
+            self?.sheetView?.layoutIfNeeded()
         }, completion: nil)
     }
 
