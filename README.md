@@ -115,7 +115,7 @@ Various parameters can be configured for a sheet via a `SheetConfiguration` when
 | `initialPosition` | The initial position of the sheet when presented. Defaults to `.open` for a full sized sheet. |
 | `supportedPositions` | The list of positions that the sheet can be adjusted to via sliding. Defaults to `[.open]`, which only allows the sheet to be fully sized or closed. |
 | `topInset` | The number of points between the top of the sheet and the top safe area. Defaults to 44. |
-| `usesDefaultKeyboardAvoidance` | A flag that determines if Duvet should use its own custom keyboard avoidance mechanism for this sheet or not. This is defaulted to `true`, but if your app handles keyboard avoidance in it's own way, it is recommended that this flag is set to `false` to reduce animation conflicts. |
+| `isKeyboardAvoidanceEnabled` | A flag that determines if Duvet should use its own custom keyboard avoidance mechanism for this sheet or not. This is defaulted to `true`, but if your app handles keyboard avoidance in it's own way, it is recommended that this flag is set to `false` to reduce animation conflicts. |
 
 ### Scroll View Interaction
 
