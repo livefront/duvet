@@ -194,7 +194,7 @@ public class SheetViewController: UIViewController {
     ///
     @objc private func adjustViewForKeyboard(notification: Notification) {
         guard let sheetView = sheetView,
-              sheetView.configuration.usesDefaultKeyboardAvoidance,
+              sheetView.configuration.isKeyboardAvoidanceEnabled,
                 let userInfo = notification.userInfo,
                 let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
                 let keyboardFrameEnd = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
