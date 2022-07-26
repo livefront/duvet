@@ -11,7 +11,15 @@ public class SheetViewController: UIViewController {
     public weak var delegate: SheetViewControllerDelegate?
 
     /// An array of the sheet items being managed by the view controller.
-    public private(set) var sheetItems = [SheetItem]()
+    public private(set) var sheetItems = [SheetItem]() {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        currentSheetItem?.viewController.preferredStatusBarStyle ?? .default
+    }
 
     /// Property animator for dimming the background view as the sheet changes sizes.
     private(set) var backgroundDimmingAnimator: UIViewPropertyAnimator? {
@@ -37,6 +45,9 @@ public class SheetViewController: UIViewController {
         gestureRecognizer.delegate = self
         return gestureRecognizer
     }()
+
+    /// The current sheet item being displayed.
+    private var currentSheetItem: SheetItem?
 
     // MARK: Initialization
 
@@ -226,8 +237,8 @@ public class SheetViewController: UIViewController {
     /// Transition between two sheets.
     ///
     /// - Parameters:
-    ///   - from: The current sheet item that is being displayed.
-    ///   - to: The new sheet item that should be displayed.
+    ///   - fromSheetItem: The current sheet item that is being displayed.
+    ///   - toSheetItem: The new sheet item that should be displayed.
     ///   - forward: True when pushing a sheet, false when popping a sheet.
     ///   - animated: True if the transition should be animated.
     ///
@@ -246,7 +257,7 @@ public class SheetViewController: UIViewController {
         let toSheetView = sheetView
         let toViewController = toSheetItem.viewController
 
-        let completion = {
+        let completion = { [weak self] in
             fromViewController?.willMove(toParent: nil)
             fromViewController?.removeFromParent()
 
@@ -254,6 +265,9 @@ public class SheetViewController: UIViewController {
             fromSheetView?.removeFromSuperview()
 
             toViewController.didMove(toParent: self)
+
+            self?.currentSheetItem = toSheetItem
+            self?.setNeedsStatusBarAppearanceUpdate()
         }
 
         if animated {
