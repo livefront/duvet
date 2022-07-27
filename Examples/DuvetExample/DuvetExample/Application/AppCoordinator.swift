@@ -19,7 +19,7 @@ class DefaultAppCoordinator {
 
     // MARK: Properites
 
-    private let navigationController = UINavigationController()
+    private let navigationController: UINavigationController = StatusBarNavigationController()
 
     private let sheetTransitioningDelegate = SheetTransitioningDelegate()   // swiftlint:disable:this weak_delegate
 }
@@ -85,6 +85,8 @@ extension DefaultAppCoordinator: AppCoordinator {
 
 extension DefaultAppCoordinator: SheetViewControllerDelegate {
     func dismissSheetViewController() {
-        navigationController.dismiss(animated: true, completion: nil)
+        navigationController.dismiss(animated: true) { [weak self] in
+            self?.navigationController.setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }

@@ -163,7 +163,7 @@ class SheetViewControllerTests: XCTestCase {
     func testSheetPushWithViewControllerStatusBarSettingsShowsCorrectStatusBar() {
         subject.viewDidLoad()
 
-        let viewController = LightStatusBarViewController()
+        let viewController = VariableStatusBarViewController()
         let sheetItem = SheetItem(
             viewController: viewController,
             configuration: SheetConfiguration(),
@@ -172,6 +172,23 @@ class SheetViewControllerTests: XCTestCase {
         subject.push(sheetItem: sheetItem, animated: false)
 
         XCTAssertEqual(subject.preferredStatusBarStyle, .lightContent)
+    }
+
+    /// Changing the preferred status bar style should update the status bar style
+    func testUpdatingStatusBarStyleFromSheetContentUpdatesStatusBar() {
+        subject.viewDidLoad()
+
+        let viewController = VariableStatusBarViewController()
+        let sheetItem = SheetItem(
+            viewController: viewController,
+            configuration: SheetConfiguration(),
+            scrollView: nil)
+
+        subject.push(sheetItem: sheetItem, animated: false)
+        XCTAssertEqual(subject.preferredStatusBarStyle, .lightContent)
+
+        viewController.statusBarStyle = .default
+        XCTAssertEqual(subject.preferredStatusBarStyle, .default)
     }
 }
 
@@ -183,8 +200,10 @@ class MockSheetViewControllerDelegate: SheetViewControllerDelegate {
     }
 }
 
-private class LightStatusBarViewController: UIViewController {
+private class VariableStatusBarViewController: UIViewController {
+    var statusBarStyle: UIStatusBarStyle = .lightContent
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+        statusBarStyle
     }
 }

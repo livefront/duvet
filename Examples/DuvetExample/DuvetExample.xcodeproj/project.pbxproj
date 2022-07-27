@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B8788D4C2890466400C1B73B /* StatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8788D492890466400C1B73B /* StatusBarViewController.swift */; };
+		B8F3FD4128905A67002413A0 /* StatusBarNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F3FD3E28905A67002413A0 /* StatusBarNavigationController.swift */; };
 		C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */; };
 		C9496F9A219B2D0C003753AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F99219B2D0C003753AC /* AppDelegate.swift */; };
 		C9496F9C219B2D0C003753AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9496F9B219B2D0C003753AC /* ViewController.swift */; };
@@ -43,6 +45,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B8788D492890466400C1B73B /* StatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarViewController.swift; sourceTree = "<group>"; };
+		B8F3FD372890533E002413A0 /* Duvet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Duvet.framework; sourceTree = "<group>"; };
+		B8F3FD3E28905A67002413A0 /* StatusBarNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarNavigationController.swift; sourceTree = "<group>"; };
 		C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackgroundViewController.swift; sourceTree = "<group>"; };
 		C9496F96219B2D0C003753AC /* DuvetExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuvetExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9496F99219B2D0C003753AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,10 +141,12 @@
 		C9A3BE62219CC41700ED599B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B8F3FD3E28905A67002413A0 /* StatusBarNavigationController.swift */,
 				C9A3BE65219CC43D00ED599B /* AdjustableContentViewController.swift */,
 				C9A3BE67219CC45500ED599B /* AdjustableWithScrollViewController.swift */,
 				C9A3BE63219CC42400ED599B /* BaseViewController.swift */,
 				C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */,
+				B8788D492890466400C1B73B /* StatusBarViewController.swift */,
 				C9A3BE69219CC46D00ED599B /* HalfViewController.swift */,
 				C9A3BE6B219CC48200ED599B /* FittingSizeViewController.swift */,
 				C9A3BE6D219CC4A900ED599B /* FullSizeViewController.swift */,
@@ -245,10 +252,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8788D4C2890466400C1B73B /* StatusBarViewController.swift in Sources */,
 				C9A3BE64219CC42400ED599B /* BaseViewController.swift in Sources */,
 				C9496FB6219B2DCD003753AC /* AppCoordinator.swift in Sources */,
 				C9A3BE6E219CC4A900ED599B /* FullSizeViewController.swift in Sources */,
 				C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */,
+				B8F3FD4128905A67002413A0 /* StatusBarNavigationController.swift in Sources */,
 				C9A3BE61219CC2F700ED599B /* SheetHeaderView.swift in Sources */,
 				C982073421B1972E0032CED9 /* KeyboardFullViewController.swift in Sources */,
 				C99A872721ADB09100F8E7D2 /* PushPopViewController.swift in Sources */,

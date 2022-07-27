@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         case keyboardFull = "Keyboard - Expand with Keyboard"   // Contained view responsible for keyboard adjustments.
         case pushPop = "Push/Pop"
         case scrollViewHeaderFooter = "Scroll View with Header and Footer"
+        case statusBar = "Custom Status Bar"
 
         var backgroundView: SheetBackgroundView {
             switch self {
@@ -56,6 +57,8 @@ class ViewController: UIViewController {
                 return PushPopViewController.self
             case .scrollViewHeaderFooter:
                 return ScrollViewHeaderFooterViewController.self
+            case .statusBar:
+                return StatusBarViewController.self
             }
         }
     }
@@ -77,6 +80,10 @@ class ViewController: UIViewController {
         return tableView
     }()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        presentedViewController?.preferredStatusBarStyle ?? .default
+    }
+
     // MARK: UIViewController
 
     override func viewDidLoad() {
@@ -93,7 +100,9 @@ class ViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            ])
+        ])
+
+        modalPresentationCapturesStatusBarAppearance = true
     }
 }
 
