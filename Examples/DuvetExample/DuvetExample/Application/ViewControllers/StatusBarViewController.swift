@@ -1,6 +1,7 @@
 import Duvet
 import UIKit
 
+/// Constants that describe the style of the device’s status bar.
 enum StatusBarStyle: CaseIterable {
     static var allCases: [StatusBarStyle] {
         var styles: [StatusBarStyle] = [.default, .light]
@@ -10,20 +11,17 @@ enum StatusBarStyle: CaseIterable {
         return styles
     }
 
+    /// A status bar that automatically chooses light or dark content based on the user interface style.
     case `default`
+
+    /// A light status bar, intended for use on dark backgrounds.
     case light
 
+    /// A light status bar, intended for use on dark backgrounds.
     @available(iOS 13.0, *)
     case dark
 
-    var label: String {
-        switch self {
-        case .default: return "Default"
-        case .light: return "Light"
-        case .dark: return "Dark"
-        }
-    }
-
+    /// The underlying `UIStatusBarStyle`.
     var value: UIStatusBarStyle {
         switch self {
         case .default:
@@ -48,23 +46,18 @@ class StatusBarViewController: BaseViewController, ProvidesSheetConfiguration {
         supportedPositions: [.fittingSize]
     )
 
-    private var statusBarStyle: UIStatusBarStyle = .lightContent {
-        didSet {
-            setNeedsStatusBarAppearanceUpdate()
-        }
-    }
+    private static var statusBarStyle: StatusBarStyle = .default
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        statusBarStyle
+        StatusBarViewController.statusBarStyle.value
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared.keyWindow?.rootViewController?.setNeedsStatusBarAppearanceUpdate()
 
-        let segmentedControl = UISegmentedControl(items: StatusBarStyle.allCases.map(\.label))
+        let segmentedControl = UISegmentedControl(items: StatusBarStyle.allCases.map(String.init(describing:)))
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = StatusBarStyle.allCases.firstIndex(of: StatusBarViewController.statusBarStyle) ?? 0
         segmentedControl.addTarget(self, action: #selector(didSelectStatusBarStyle), for: .valueChanged)
         view.addSubview(segmentedControl)
         NSLayoutConstraint.activate([
@@ -75,6 +68,7 @@ class StatusBarViewController: BaseViewController, ProvidesSheetConfiguration {
     }
 
     @objc func didSelectStatusBarStyle(_ sender: UISegmentedControl) {
-        statusBarStyle = StatusBarStyle.allCases[sender.selectedSegmentIndex].value
+        StatusBarViewController.statusBarStyle = StatusBarStyle.allCases[sender.selectedSegmentIndex]
+        setNeedsStatusBarAppearanceUpdate()
     }
 }
