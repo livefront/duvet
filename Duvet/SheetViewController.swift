@@ -11,14 +11,10 @@ public class SheetViewController: UIViewController {
     public weak var delegate: SheetViewControllerDelegate?
 
     /// An array of the sheet items being managed by the view controller.
-    public private(set) var sheetItems = [SheetItem]() {
-        didSet {
-            setNeedsStatusBarAppearanceUpdate()
-        }
-    }
+    public private(set) var sheetItems = [SheetItem]()
 
     public override var preferredStatusBarStyle: UIStatusBarStyle {
-        currentSheetItem?.viewController.preferredStatusBarStyle ?? .default
+        sheetItems.last?.viewController.preferredStatusBarStyle ?? .default
     }
 
     /// Property animator for dimming the background view as the sheet changes sizes.
@@ -45,9 +41,6 @@ public class SheetViewController: UIViewController {
         gestureRecognizer.delegate = self
         return gestureRecognizer
     }()
-
-    /// The current sheet item being displayed.
-    private var currentSheetItem: SheetItem?
 
     // MARK: Initialization
 
@@ -266,7 +259,6 @@ public class SheetViewController: UIViewController {
 
             toViewController.didMove(toParent: self)
 
-            self?.currentSheetItem = toSheetItem
             self?.setNeedsStatusBarAppearanceUpdate()
         }
 
