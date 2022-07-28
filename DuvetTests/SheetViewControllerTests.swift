@@ -142,6 +142,54 @@ class SheetViewControllerTests: XCTestCase {
         XCTAssertEqual(subject.sheetItems, sheetItems)
         XCTAssertTrue(sheetView.contentView.subviews.contains(sheetItems[1].viewController.view))
     }
+
+    /// Pushing a sheet item when it is configured to use the default status bar settings should
+    /// show the default status bar style
+    func testSheetPushWithDefaultStatusBarSettingsShowsDefaultStatusBar() {
+        subject.viewDidLoad()
+
+        let sheetItem = SheetItem(
+            viewController: UIViewController(),
+            configuration: SheetConfiguration(),
+            scrollView: nil)
+
+        subject.push(sheetItem: sheetItem, animated: false)
+
+        XCTAssertEqual(subject.preferredStatusBarStyle, .default)
+    }
+
+    /// Pushing a sheet item when it is configured to use its sheet item's status bar preferences
+    /// should show the sheet item's status bar style
+    func testSheetPushWithViewControllerStatusBarSettingsShowsCorrectStatusBar() {
+        subject.viewDidLoad()
+
+        let viewController = VariableStatusBarViewController()
+        let sheetItem = SheetItem(
+            viewController: viewController,
+            configuration: SheetConfiguration(),
+            scrollView: nil)
+
+        subject.push(sheetItem: sheetItem, animated: false)
+
+        XCTAssertEqual(subject.preferredStatusBarStyle, .lightContent)
+    }
+
+    /// Changing the preferred status bar style should update the status bar style
+    func testUpdatingStatusBarStyleFromSheetContentUpdatesStatusBar() {
+        subject.viewDidLoad()
+
+        let viewController = VariableStatusBarViewController()
+        let sheetItem = SheetItem(
+            viewController: viewController,
+            configuration: SheetConfiguration(),
+            scrollView: nil)
+
+        subject.push(sheetItem: sheetItem, animated: false)
+        XCTAssertEqual(subject.preferredStatusBarStyle, .lightContent)
+
+        viewController.statusBarStyle = .default
+        XCTAssertEqual(subject.preferredStatusBarStyle, .default)
+    }
 }
 
 class MockSheetViewControllerDelegate: SheetViewControllerDelegate {
@@ -149,5 +197,13 @@ class MockSheetViewControllerDelegate: SheetViewControllerDelegate {
 
     func dismissSheetViewController() {
         didDismissSheetViewController?()
+    }
+}
+
+private class VariableStatusBarViewController: UIViewController {
+    var statusBarStyle: UIStatusBarStyle = .lightContent
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        statusBarStyle
     }
 }
