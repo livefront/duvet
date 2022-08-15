@@ -8,9 +8,9 @@ public class SheetView: UIView {
 
     // MARK: Properties
 
-    /// An animator that can be added to the view that will animate alongside the transations from
-    /// the top supported position to the second from top position. This is used to animate the
-    /// background dim/blur as the sheet transations between the top two positions.
+    /// An animator that can be added to the view that will animate alongside the transitions
+    /// between positions to clear the dimmed/blurred background when transitioning to the closed
+    /// position.
     var backgroundAnimator: UIViewPropertyAnimator?
 
     /// The sheet's configuration that affects interactions and how it's displayed.
@@ -258,9 +258,9 @@ public class SheetView: UIView {
     ///   - velocity: The velocity of the pan gesture.
     ///
     func panningEnded(translation: CGPoint, velocity: CGPoint) {
-        let targetPositon = layoutManager.targetPosition(with: translation, velocity: velocity)
+        let targetPosition = layoutManager.targetPosition(with: translation, velocity: velocity)
 
-        let distanceToTarget = layoutManager.distance(from: layoutManager.contentHeightConstraint.constant, to: targetPositon)
+        let distanceToTarget = layoutManager.distance(from: layoutManager.contentHeightConstraint.constant, to: targetPosition)
         let velocityMagnitude = abs(velocity.y)
         let distanceMagnitude = abs(distanceToTarget)
 
@@ -280,11 +280,11 @@ public class SheetView: UIView {
             initialSpringVelocity: springVelocity,
             options: [.allowUserInteraction, .beginFromCurrentState],
             animations: {
-                self.layoutManager.move(to: targetPositon)
+                self.layoutManager.move(to: targetPosition)
                 self.layoutIfNeeded()
             },
             completion: { _ in
-                if targetPositon == .closed {
+                if targetPosition == .closed {
                     self.delegate?.sheetViewMovedToClosePosition(self)
                 } else {
                     self.scrollView?.showsVerticalScrollIndicator = true
@@ -295,14 +295,15 @@ public class SheetView: UIView {
             }
         )
 
-        // Only animate the background when moving between the top and second from top positions.
-        if let secondPosition = self.layoutManager.secondPosition,
-            let animator = backgroundAnimator,
-            secondPosition == targetPositon || layoutManager.topPosition == targetPositon {
+        // Only animate the background when moving into or out of the closed position (i.e. between
+        // the position above closed and closed).
+        if let positionAboveClosed = layoutManager.positionAboveClosed,
+           let animator = backgroundAnimator,
+           targetPosition == positionAboveClosed || targetPosition == .closed {
 
-            // The animation is reversed when animating from the top to the second positions
-            // (dimmed -> clear). It needs to be reversed when animating back to dimmed.
-            animator.isReversed = targetPositon == layoutManager.topPosition
+            // The forward animation handles animating to the closed position (dimmed -> clear).
+            // It needs to be reversed when animating back to dimmed.
+            animator.isReversed = targetPosition == positionAboveClosed
 
             let completedValue: CGFloat = animator.isReversed ? 1 : 0
             if !animator.fractionComplete.isEqual(to: completedValue) {

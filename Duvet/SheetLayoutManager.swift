@@ -7,17 +7,22 @@ struct SheetLayoutManager {
     // MARK: Properties
 
     /// A fractional value that indicates what percentage the sheet is covering the area between the
-    /// top-most and second from top positions. 0.0 indicates that the sheet is scroll all the way
-    /// up to the top position and the background should be dimmed. 1.0 indicates that the sheet is
-    /// scrolled down the second from top position and the background should be clear.
+    /// position above closed and closed positions. 0.0 indicates that the sheet is scrolled to the
+    /// position above closed and the background should be dimmed. 1.0 indicates that the sheet is
+    /// scrolled to the closed position and the background should be clear.
     var backgroundDimmingFractionComplete: CGFloat? {
-        guard let secondPosition = secondPosition else { return nil }
+        guard configuration.supportedPositions.contains(.closed),
+              let positionAboveClosed = positionAboveClosed
+        else {
+            return nil
+        }
 
-        let topPositionHeight = height(at: topPosition)
-        let secondPositionHeight = height(at: secondPosition)
-        let fractionComplete = 1 - ((contentHeightConstraint.constant - secondPositionHeight) / (topPositionHeight - secondPositionHeight))
+        let heightAtClosed = height(at: .closed)
+        let heightAtPositionAboveClosed = height(at: positionAboveClosed)
 
-        return fractionComplete
+        let fractionComplete = ((heightAtPositionAboveClosed - contentHeightConstraint.constant) /
+            (heightAtPositionAboveClosed - heightAtClosed))
+        return max(min(fractionComplete, 1), 0)
     }
 
     /// Content view constraints that move the sheet into the closed position when active.
@@ -63,6 +68,14 @@ struct SheetLayoutManager {
     // The sheet's current position.
     var position: SheetPosition = .closed
 
+    /// The position above the closed position. This is used to fade the background to clear as the
+    /// sheet is scrolled from this position to closed.
+    var positionAboveClosed: SheetPosition? {
+        let positions = positionsSortedByDistance(from: height(at: .closed))
+        guard positions.indices.contains(1) else { return nil }
+        return positions[1].position
+    }
+
     /// The sheet view's bounds.
     var sheetBounds: CGRect = .zero {
         didSet {
@@ -79,21 +92,8 @@ struct SheetLayoutManager {
         }
     }
 
-    /// The second from the top supported position for the sheet. This is used to fade the
-    /// background to clear as the sheet is scrolled to this position.
-    var secondPosition: SheetPosition? {
-        let positions = positionsSortedByDistance(from: height(at: .open))
-        guard positions.indices.contains(1) else { return nil }
-        return positions[1].position
-    }
-
     /// Weak reference to the sheet view.
     weak var sheetView: SheetView?
-
-    /// The top-most supported position for the sheet.
-    var topPosition: SheetPosition {
-        return positionsSortedByDistance(from: height(at: .open)).first?.position ?? configuration.initialPosition
-    }
 
     // MARK: Initialization
 

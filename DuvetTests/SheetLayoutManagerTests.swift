@@ -18,6 +18,29 @@ class SheetLayoutManagerTests: XCTestCase {
         subject.sheetBounds = CGRect(x: 0, y: 0, width: 600, height: 600)
     }
 
+    /// `backgroundDimmingFractionComplete` returns a fraction value that indicates what percentage
+    /// the sheet is covering the area between the position above closed and closed positions.
+    func testBackgroundDimmingFractionComplete() {
+        XCTAssertEqual(subject.backgroundDimmingFractionComplete, 0)
+
+        subject.move(to: .half)
+        XCTAssertEqual(subject.backgroundDimmingFractionComplete, 0)
+
+        // Sheet height @ half = 278. Sheet height @ closed = 0.
+
+        subject.contentHeightConstraint.constant = 208.5
+        XCTAssertEqual(subject.backgroundDimmingFractionComplete, 0.25)
+
+        subject.contentHeightConstraint.constant = 69.5
+        XCTAssertEqual(subject.backgroundDimmingFractionComplete, 0.75)
+
+        subject.move(to: .closed)
+        XCTAssertEqual(subject.backgroundDimmingFractionComplete, 1)
+
+        sheetView = SheetView(view: view, configuration: SheetConfiguration(supportedPositions: [.open]))
+        XCTAssertNil(sheetView.layoutManager.backgroundDimmingFractionComplete)
+    }
+
     /// `init()` sets up the constraints and moves the sheet to the initial position.
     func testInit() {
         XCTAssertEqual(subject.position, .open)
@@ -30,24 +53,6 @@ class SheetLayoutManagerTests: XCTestCase {
 
         subject.sheetBounds = .zero
         XCTAssertEqual(subject.contentHeightConstant, UIScreen.main.bounds.height)
-    }
-
-    /// `topPosition` returns the top position.
-    func testTopPosition() {
-        XCTAssertEqual(subject.topPosition, .open)
-
-        sheetView = SheetView(view: UIView(), configuration: SheetConfiguration(supportedPositions: [.fittingSize]))
-        subject = sheetView.layoutManager
-        XCTAssertEqual(subject.topPosition, .fittingSize)
-    }
-
-    /// `secondPosition` returns the second from the top position.
-    func testSecondPosition() {
-        XCTAssertEqual(subject.secondPosition, .half)
-
-        sheetView = SheetView(view: UIView(), configuration: SheetConfiguration(supportedPositions: [.fittingSize]))
-        subject = sheetView.layoutManager
-        XCTAssertNil(subject.secondPosition)
     }
 
     /// `adjustContentHeight(with:)` adjusts the height of the content based on the pan translation.
@@ -86,6 +91,19 @@ class SheetLayoutManagerTests: XCTestCase {
         XCTAssertEqual(subject.position, .closed)
         XCTAssertTrue(subject.closedConstraints.allSatisfy { $0.isActive })
         XCTAssertEqual(subject.contentHeightConstraint.constant, 0)
+    }
+
+    /// `positionAboveClosed` returns the position immediately above the closed position.
+    func testPositionAboveClosed() {
+        XCTAssertEqual(subject.positionAboveClosed, .half)
+
+        sheetView = SheetView(view: view, configuration: SheetConfiguration(supportedPositions: [.closed, .open]))
+        subject = sheetView.layoutManager
+        XCTAssertEqual(subject.positionAboveClosed, .open)
+
+        sheetView = SheetView(view: view, configuration: SheetConfiguration(supportedPositions: [.open]))
+        subject = sheetView.layoutManager
+        XCTAssertNil(subject.positionAboveClosed)
     }
 
     /// `positionsInDirection(of:)` returns the supported positions in the direction of the translation.
