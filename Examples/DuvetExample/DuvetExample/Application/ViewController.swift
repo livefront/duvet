@@ -5,7 +5,7 @@ protocol ProvidesSheetConfiguration where Self: UIViewController {
     static var sheetConfiguration: SheetConfiguration { get }
 }
 
-protocol ProvidesSheetScrollView: class {
+protocol ProvidesSheetScrollView: AnyObject {
     var sheetScrollView: UIScrollView { get }
 }
 

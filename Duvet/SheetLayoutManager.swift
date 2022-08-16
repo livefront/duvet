@@ -36,7 +36,7 @@ struct SheetLayoutManager {
         return max(0, sheetBounds.height - (sheetSafeAreaInsets.top + configuration.topInset))
     }
 
-    /// Constraints that defines the height of the content view. This is adusted based on the
+    /// Constraints that defines the height of the content view. This is adjusted based on the
     /// current position and while panning the view.
     let contentHeightConstraint: NSLayoutConstraint
 
@@ -256,7 +256,7 @@ struct SheetLayoutManager {
         }
         let sortedByDistance = positionMappings.sorted { abs($0.distance) < abs($1.distance) }
 
-        // The velocity theshold at which a pan should be allowed to change the position of the sheet.
+        // The velocity threshold at which a pan should be allowed to change the position of the sheet.
         let changePositionVelocityThreshold: CGFloat = 150
 
         let targetPosition: SheetPosition?
