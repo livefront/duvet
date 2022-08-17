@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Duvet'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = 'A configurable framework for presenting bottom sheets on iOS.'
   s.description      = <<-DESC
     Duvet is a configurable framework for presenting bottom sheets on iOS. It
