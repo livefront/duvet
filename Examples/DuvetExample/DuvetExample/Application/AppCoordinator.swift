@@ -1,7 +1,7 @@
 import Duvet
 import UIKit
 
-protocol AppCoordinator: class {
+protocol AppCoordinator: AnyObject {
     var rootViewController: UIViewController { get }
 
     func dismissSheet()
