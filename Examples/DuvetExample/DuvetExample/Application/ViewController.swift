@@ -17,6 +17,7 @@ class ViewController: UIViewController {
         case adjustable = "Adjustable"
         case adjustableWithScroll = "Adjustable with Scroll View"
         case blurredBackground = "Blurred Background"
+        case customBackground = "Custom Background"
         case half = "Half Size"
         case fittingSize = "Fitting Size"
         case fullSize = "Full Size"
@@ -30,6 +31,8 @@ class ViewController: UIViewController {
             switch self {
             case .blurredBackground:
                 return BlurredSheetBackgroundView()
+            case .customBackground:
+                return CustomSheetBackgroundView()
             default:
                 return DimmingSheetBackgroundView()
             }
@@ -43,6 +46,8 @@ class ViewController: UIViewController {
                 return AdjustableWithScrollViewController.self
             case .blurredBackground:
                 return BlurredBackgroundViewController.self
+            case .customBackground:
+                return CustomBackgroundViewController.self
             case .half:
                 return HalfViewController.self
             case .fittingSize:
