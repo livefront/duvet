@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6652036628B7F1CF000C07B7 /* CustomBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6652036528B7F1CF000C07B7 /* CustomBackgroundViewController.swift */; };
 		B8788D4C2890466400C1B73B /* StatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8788D492890466400C1B73B /* StatusBarViewController.swift */; };
 		B8F3FD4128905A67002413A0 /* StatusBarNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F3FD3E28905A67002413A0 /* StatusBarNavigationController.swift */; };
 		C9336969219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */; };
@@ -45,8 +46,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6652036528B7F1CF000C07B7 /* CustomBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackgroundViewController.swift; sourceTree = "<group>"; };
 		B8788D492890466400C1B73B /* StatusBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarViewController.swift; sourceTree = "<group>"; };
-		B8F3FD372890533E002413A0 /* Duvet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Duvet.framework; sourceTree = "<group>"; };
 		B8F3FD3E28905A67002413A0 /* StatusBarNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarNavigationController.swift; sourceTree = "<group>"; };
 		C9336968219DEA7C00AB3A4F /* BlurredBackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredBackgroundViewController.swift; sourceTree = "<group>"; };
 		C9496F96219B2D0C003753AC /* DuvetExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuvetExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +155,7 @@
 				C99A872F21AF363200F8E7D2 /* KeyboardViewController.swift */,
 				C99A872621ADB09100F8E7D2 /* PushPopViewController.swift */,
 				C9A3BE6F219CC63400ED599B /* ScrollViewHeaderFooterViewController.swift */,
+				6652036528B7F1CF000C07B7 /* CustomBackgroundViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -261,6 +263,7 @@
 				C9A3BE61219CC2F700ED599B /* SheetHeaderView.swift in Sources */,
 				C982073421B1972E0032CED9 /* KeyboardFullViewController.swift in Sources */,
 				C99A872721ADB09100F8E7D2 /* PushPopViewController.swift in Sources */,
+				6652036628B7F1CF000C07B7 /* CustomBackgroundViewController.swift in Sources */,
 				C9A3BE66219CC43D00ED599B /* AdjustableContentViewController.swift in Sources */,
 				C9496F9C219B2D0C003753AC /* ViewController.swift in Sources */,
 				C9A3BE6A219CC46D00ED599B /* HalfViewController.swift in Sources */,

@@ -4,15 +4,18 @@ import UIKit
 ///
 public class DimmingSheetBackgroundView: SheetBackgroundView {
 
+    /// The alpha of the view when it is applied (dimmed). Defaults to 0.5.
+    public var alphaWhenDimmed = 0.5
+
     // MARK: Initialization
 
-    /// Initialize a `BlurredSheetBackgroundView`.
+    /// Initialize a `DimmingSheetBackgroundView`.
     ///
     /// - Parameter frame: The view's initial frame.
     ///
     public override init(frame: CGRect) {
         super.init(frame: frame)
-
+        backgroundColor = .black
         alpha = 0
     }
 
@@ -20,14 +23,13 @@ public class DimmingSheetBackgroundView: SheetBackgroundView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: SheetBackgroundView
+    // MARK: SheetBackground
 
-    public override func applyBackground() {
-        alpha = 0.5
-        backgroundColor = .black
+    public func applyBackground() {
+        alpha = alphaWhenDimmed
     }
 
-    public override func clearBackground() {
+    public func clearBackground() {
         alpha = 0
     }
 }

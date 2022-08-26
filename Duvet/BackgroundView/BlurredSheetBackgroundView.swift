@@ -36,13 +36,13 @@ public class BlurredSheetBackgroundView: SheetBackgroundView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: SheetBackgroundView
+    // MARK: SheetBackground
 
-    public override func applyBackground() {
+    public func applyBackground() {
         visualEffectView.effect = blurEffect
     }
 
-    public override func clearBackground() {
+    public func clearBackground() {
         visualEffectView.effect = nil
     }
 }
