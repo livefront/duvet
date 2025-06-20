@@ -2,6 +2,7 @@ import UIKit
 
 /// Object that manages the constraints for moving the sheet between its supported positions.
 ///
+@MainActor
 struct SheetLayoutManager {
 
     // MARK: Properties

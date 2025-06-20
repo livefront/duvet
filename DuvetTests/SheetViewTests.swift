@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class SheetViewTests: XCTestCase {
     var backgroundAnimator: UIViewPropertyAnimator!
     var configuration: SheetConfiguration!

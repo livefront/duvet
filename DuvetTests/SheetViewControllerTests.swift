@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class SheetViewControllerTests: XCTestCase {
     var delegate: MockSheetViewControllerDelegate!      // swiftlint:disable:this weak_delegate
     let sheetItem = SheetItem(viewController: UIViewController(), configuration: SheetConfiguration(), scrollView: nil)
