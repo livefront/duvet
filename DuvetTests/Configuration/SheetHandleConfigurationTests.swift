@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class SheetHandleConfigurationTests: XCTestCase {
     var subject: SheetHandleConfiguration!
 

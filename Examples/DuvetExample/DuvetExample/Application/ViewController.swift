@@ -5,6 +5,7 @@ protocol ProvidesSheetConfiguration where Self: UIViewController {
     static var sheetConfiguration: SheetConfiguration { get }
 }
 
+@MainActor
 protocol ProvidesSheetScrollView: AnyObject {
     var sheetScrollView: UIScrollView { get }
 }
@@ -27,7 +28,7 @@ class ViewController: UIViewController {
         case scrollViewHeaderFooter = "Scroll View with Header and Footer"
         case statusBar = "Custom Status Bar"
 
-        var backgroundView: SheetBackgroundView {
+        @MainActor var backgroundView: SheetBackgroundView {
             switch self {
             case .blurredBackground:
                 return BlurredSheetBackgroundView()

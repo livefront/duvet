@@ -124,7 +124,7 @@ extension ScrollViewHeaderFooterViewController: UITableViewDataSource {
 }
 
 extension ScrollViewHeaderFooterViewController: ProvidesSheetScrollView {
-    var sheetScrollView: UIScrollView {
+    @MainActor var sheetScrollView: UIScrollView {
         return tableView
     }
 }

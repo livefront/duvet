@@ -67,7 +67,8 @@ public class SheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         backgroundDimmingAnimator?.stopAnimation(true)
     }
 

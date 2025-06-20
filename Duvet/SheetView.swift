@@ -50,7 +50,7 @@ public class SheetView: UIView {
 
     /// The original `UIScrollViewDelegate` on `scrollView`. Any scroll view delegate calls will be
     /// forwarded to this original delegate.
-    weak var scrollViewDelegate: UIScrollViewDelegate?
+    weak nonisolated(unsafe) var scrollViewDelegate: UIScrollViewDelegate?
 
     /// True when the sheet is being interactively moved up/down.
     var sheetInteractionInProgress = false

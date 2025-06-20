@@ -2,6 +2,7 @@ import UIKit
 
 public typealias SheetBackgroundView = SheetBackground & UIView
 
+@MainActor
 public protocol SheetBackground: AnyObject {
     /// Apply the background in the view. This will be called in an animation block when the
     /// background should be shown.

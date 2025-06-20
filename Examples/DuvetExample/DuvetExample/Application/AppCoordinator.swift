@@ -1,6 +1,7 @@
 import Duvet
 import UIKit
 
+@MainActor
 protocol AppCoordinator: AnyObject {
     var rootViewController: UIViewController { get }
 
@@ -15,6 +16,7 @@ protocol AppCoordinator: AnyObject {
     func showViewController()
 }
 
+@MainActor
 class DefaultAppCoordinator {
 
     // MARK: Properites
