@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class SheetContentViewTests: XCTestCase {
     var configuration: SheetConfiguration!
     var subject: SheetContentView!

@@ -59,6 +59,7 @@ extension AdjustableWithScrollViewController: UITableViewDataSource {
         return cell
     }
 }
+
 extension AdjustableWithScrollViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("didSelect indexPath=\(indexPath)")
@@ -66,7 +67,7 @@ extension AdjustableWithScrollViewController: UITableViewDelegate {
 }
 
 extension AdjustableWithScrollViewController: ProvidesSheetScrollView {
-    var sheetScrollView: UIScrollView {
+    @MainActor var sheetScrollView: UIScrollView {
         return tableView
     }
 }

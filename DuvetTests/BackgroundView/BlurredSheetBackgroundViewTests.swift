@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class BlurredSheetBackgroundViewTests: XCTestCase {
     var subject: BlurredSheetBackgroundView!
 

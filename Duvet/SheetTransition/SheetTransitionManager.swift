@@ -2,6 +2,7 @@ import UIKit
 
 /// Protocol for an object that manages the transition between two sheets.
 ///
+@MainActor
 public protocol SheetTransitionManager {
 
     /// Animates the transition from one sheet view to another.

@@ -2,6 +2,7 @@ import Foundation
 
 /// Delegate protocol for `SheetView`.
 ///
+@MainActor
 protocol SheetViewDelegate: AnyObject {
 
     /// The sheet has been moved offscreen and should be dismissed.

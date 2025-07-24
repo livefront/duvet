@@ -67,10 +67,6 @@ public class SheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        backgroundDimmingAnimator?.stopAnimation(true)
-    }
-
     // MARK: UIViewController
 
     public override func viewDidLoad() {
@@ -103,6 +99,11 @@ public class SheetViewController: UIViewController {
         if let sheetItem = sheetItems.last, sheetItem.viewController.parent != self {
             transitionSheet(fromSheetItem: nil, toSheetItem: sheetItem, forward: true, animated: false)
         }
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        backgroundDimmingAnimator?.stopAnimation(true)
     }
 
     // MARK: Push/Pop Sheets

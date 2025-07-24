@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class ForwardStackSheetTransitionManagerTests: XCTestCase {
     var fromSheetView: SheetView!
     var toSheetView: SheetView!

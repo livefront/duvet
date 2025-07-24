@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class DimmingSheetBackgroundViewTests: XCTestCase {
     var subject: DimmingSheetBackgroundView!
 

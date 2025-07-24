@@ -1,10 +1,10 @@
-// swift-tools-version:5.0
+// swift-tools-version:6.1
 
 import PackageDescription
 
 let package = Package(
     name: "Duvet",
-    platforms: [.iOS(.v11)],
+    platforms: [.iOS(.v12)],
     products: [
         .library(name: "Duvet", targets: ["Duvet"]),
     ],

@@ -2,6 +2,7 @@ import XCTest
 
 @testable import Duvet
 
+@MainActor
 class SheetLayoutManagerTests: XCTestCase {
     var view: UIView!
     var sheetView: SheetView!

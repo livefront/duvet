@@ -2,6 +2,7 @@ import UIKit
 
 /// Configuration parameters for controlling how a sheet's handle is displayed.
 ///
+@MainActor
 public struct SheetHandleConfiguration: Equatable {
 
     // MARK: Properties
